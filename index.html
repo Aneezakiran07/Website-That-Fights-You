@@ -98,9 +98,8 @@
             btn.style.top = y + 'px';
         }
 
-        // --- BUTTON SABOTAGE LOGIC ---
-    btn.addEventListener('mouseover', () => {
-        if (isClickable) return; // Don't move if it's in the 2-second window
+   btn.addEventListener('mouseover', () => {
+        if (isClickable) return; // Don't move during clickable window
 
         if (jumps < 10) {
         moveButton();
@@ -123,15 +122,14 @@
         
         // Pick a random insult from the list
         btn.innerText = insults[Math.floor(Math.random() * insults.length)];
-        statusMsg.innerText = `JUMP COUNTER: ${jumps}/10`;
-     } else {
+     } else if (jumps === 10 && !isClickable) {
         startClickableWindow();
     }
 });
 
     function startClickableWindow() {
     isClickable = true;
-    btn.innerText = "CLICK!"; // Short text for a small button
+    btn.innerText = "CLICK!";
     
     // Make the button TINY and harder to hit
     btn.style.padding = "4px 8px"; 
@@ -139,13 +137,9 @@
     btn.style.backgroundColor = "#fff";
     btn.style.color = "#000";
     
-    statusMsg.innerText = "STATUS: WINDOW CLOSING IN 1 SECOND!!!";
-
     // The 1-second (1000ms) window
     resetTimer = setTimeout(() => {
-        if (isClickable) {
-            resetToRunaway();
-        }
+        resetToRunaway();
     }, 1000); 
 }
 
@@ -160,19 +154,26 @@
     btn.style.backgroundColor = "#ffff00";
     btn.style.color = "#ff0000";
     
-    statusMsg.innerText = "STATUS: REBOOTING SABOTAGE...";
     moveButton();
 }
 
     btn.addEventListener('click', () => {
-        if (isClickable) {
-            clearTimeout(resetTimer);
-            alert("Level 1 Clear! You're a legend... or just lucky.");
-                // Level 2 transition will go here
-            } else {
-                alert("NICE TRY! YOU'RE TOO SLOW.");
-            }
-        });
+    if (isClickable) {
+        clearTimeout(resetTimer);
+        
+        // Sassy Alert: Gaslighting them about their progress
+        alert("Level 1 Clear! You are now 99.9999999% done with the game. Just one more tiny thing to do... maybe.");
+        
+        // THIS IS THE LINE YOU ADD:
+        window.location.href = "level2.html"; 
+
+    } else {
+        // Punishing them for clicking too early
+        alert("IT AIN'T YOUR CUP OF TEA! Stop clicking like a maniac and wait for the window.");
+        resetToRunaway(); 
+    }
+});
     </script>
 </body>
 </html>
+
