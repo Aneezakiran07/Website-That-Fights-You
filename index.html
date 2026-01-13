@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Website That Fights You</title>
+    <style>
+        body {
+            background-color: #ff00ff;
+            background-image: 
+                linear-gradient(45deg, #000 25%, transparent 25%), 
+                linear-gradient(-45deg, #000 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #000 75%), 
+                linear-gradient(-45deg, transparent 75%, #000 75%);
+            background-size: 80px 80px;
+            background-position: 0 0, 0 40px, 40px -40px, -40px 0px;
+
+            color: #00ff00;
+            font-family: 'Comic Sans MS', cursive;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .overlay-text {
+        /* Visual Styles */
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border: 8px dashed #00ff00;
+            text-align: center;
+            box-shadow: 10px 10px 0px #ff00ff;
+            z-index: 10;
+
+            /* Fixes and Layout */
+            max-width: 90vw;       /* preventing it from being wider than screen*/
+            box-sizing: border-box; 
+            word-wrap: break-word;  /* Forced text to wrap if too long */
+        }
+
+        #runaway-btn {
+            position: fixed;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #ffff00;
+            color: #ff0000;
+            border: 5px outset #888;
+            cursor: pointer;
+            z-index: 999;
+            top: 60%;
+            /* Keep jittering always active */
+            animation: jitter 0.1s infinite;
+        }
+
+        @keyframes jitter {
+            0% { transform: translate(0,0); }
+            50% { transform: translate(3px, -3px); }
+            100% { transform: translate(0,0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-text">
+        <marquee scrollamount="15"><h1>ERROR: USER PATIENCE LOW</h1></marquee>
+        <h2>LEVEL 1: CLICK TO ENTER THE VOID</h2>
+        <p>Just Quit man!!! It ain't your cup of tea</p>
+    <!--    <p id="status-msg" style="color: rgb(0, 34, 255); font-size: 12px;">STATUS: DETECTING WEAKNESS...</p> 
+        this was added for debugging-->
+    </div>
+
+    <button id="runaway-btn">START</button>
+
+    <script>
+        const btn = document.getElementById('runaway-btn');
+        const rageText = document.getElementById('rage-count');
+        const statusMsg = document.getElementById('status-msg');
+        
+        let jumps = 0;
+        let isClickable = false;
+        let resetTimer;
+
+        // Increase rage counter
+        setInterval(() => {
+            let current = parseInt(rageText.innerText);
+            rageText.innerText = current + Math.floor(Math.random() * 3);
+        }, 2000);
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - btn.clientWidth);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // --- BUTTON SABOTAGE LOGIC ---
+    btn.addEventListener('mouseover', () => {
+        if (isClickable) return; // Don't move if it's in the 2-second window
+
+        if (jumps < 10) {
+        moveButton();
+        jumps++;
+        
+        // Expanded list of insults
+        const insults = [
+            "NOPE!", 
+            "TOO SLOW!", 
+            "TRY HARDER", 
+            "MISS ME?", 
+            "LOSER!", 
+            "MY GRANDMA IS FASTER", 
+            "SKILL ISSUE", 
+            "STOP EMBARRASSING YOURSELF", 
+            "QUIT ALREADY", 
+            "LMAO", 
+            "NOT EVEN CLOSE"
+        ];
+        
+        // Pick a random insult from the list
+        btn.innerText = insults[Math.floor(Math.random() * insults.length)];
+        statusMsg.innerText = `JUMP COUNTER: ${jumps}/10`;
+     } else {
+        startClickableWindow();
+    }
+});
+
+    function startClickableWindow() {
+    isClickable = true;
+    btn.innerText = "CLICK!"; // Short text for a small button
+    
+    // Make the button TINY and harder to hit
+    btn.style.padding = "4px 8px"; 
+    btn.style.fontSize = "10px";
+    btn.style.backgroundColor = "#fff";
+    btn.style.color = "#000";
+    
+    statusMsg.innerText = "STATUS: WINDOW CLOSING IN 1 SECOND!!!";
+
+    // The 1-second (1000ms) window
+    resetTimer = setTimeout(() => {
+        if (isClickable) {
+            resetToRunaway();
+        }
+    }, 1000); 
+}
+
+    function resetToRunaway() {
+    isClickable = false;
+    jumps = 0;
+    
+    // Restore original size and look
+    btn.innerText = "TOO SLOW!";
+    btn.style.padding = "12px 24px";
+    btn.style.fontSize = "16px";
+    btn.style.backgroundColor = "#ffff00";
+    btn.style.color = "#ff0000";
+    
+    statusMsg.innerText = "STATUS: REBOOTING SABOTAGE...";
+    moveButton();
+}
+
+    btn.addEventListener('click', () => {
+        if (isClickable) {
+            clearTimeout(resetTimer);
+            alert("Level 1 Clear! You're a legend... or just lucky.");
+                // Level 2 transition will go here
+            } else {
+                alert("NICE TRY! YOU'RE TOO SLOW.");
+            }
+        });
+    </script>
+</body>
+</html>
