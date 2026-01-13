@@ -98,7 +98,7 @@
             btn.style.top = y + 'px';
         }
 
-   btn.addEventListener('mouseover', () => {
+btn.addEventListener('mouseover', () => {
         if (isClickable) return; // Don't move during clickable window
 
         if (jumps < 10) {
@@ -119,7 +119,7 @@
             "LMAO", 
             "NOT EVEN CLOSE"
         ];
-        
+          
         // Pick a random insult from the list
         btn.innerText = insults[Math.floor(Math.random() * insults.length)];
      } else if (jumps === 10 && !isClickable) {
