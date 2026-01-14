@@ -299,7 +299,7 @@
 
             // infinite scroll logic, add more gibberish
             if (tosBox.scrollHeight - tosBox.scrollTop <= tosBox.clientHeight + 50) {
-                if (scrollCount < 5) {
+                if (scrollCount < 20) {
                     const randomJargon = legalJargon[Math.floor(Math.random() * legalJargon.length)];
                     const newSection = document.createElement('div');
                     newSection.className = 'dynamic-section';
