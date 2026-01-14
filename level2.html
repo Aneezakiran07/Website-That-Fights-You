@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE VOID - LEVEL 2</title>
@@ -63,14 +64,28 @@
             padding: 20px;
             color: #000;
             position: relative;
+            margin-bottom: 50px; /* Add space at bottom */
         }
+         .tos-wrapper h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #000;
+        }
+    
         #tos-box {
-            height: 300px;
+            height: 400px;
             overflow-y: scroll;
             border: 3px inset #888;
             padding: 15px;
-            background: #eee;
+            background: #fff;
             line-height: 1.6;
+            margin-bottom: 20px;
+        }
+       
+        
+        .tos-wrapper > p {
+            text-align: center;
+            margin-bottom: 15px;
         }
         .warning-text {
             color: red;
@@ -110,12 +125,19 @@
         <p>You must read the entire document to proceed. No skimming!</p>
         <div id="tos-box">
             <p class="warning-text">SECTION 1: YOUR SOUL</p>
-            <p>By scrolling further, you agree to give the developer your first-born cat and your favorite Java IDE license. You also agree that HTML is a programming language (it's not, but you must agree anyway).</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p id="insertion-point"></p>
+            <p>By scrolling further, you agree to give the developer your first-born cat and your favorite Java IDE license. You also agree that HTML is a programming language (it's not, but you must agree anyway). Lorem ipsum dolor sit amet, consectetur adipiscing elit. The developer reserves the right to change your desktop wallpaper to Comic Sans on a black background.</p>
+            
+            <p class="warning-text">SECTION 1.1: YOUR TIME</p>
+            <p>You acknowledge that this is a complete waste of time, but you're doing it anyway. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. You also agree that "just one more scroll" is a lie you tell yourself repeatedly.</p>
+            
+            <p class="warning-text">SECTION 1.2: YOUR DIGNITY</p>
+            <p>By continuing to scroll, you forfeit any remaining dignity. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. You accept that everyone watching you scroll endlessly thinks you're crazy.</p>
+            
+            <p class="warning-text">SECTION 1.3: YOUR PATIENCE</p>
+            <p>You understand that patience is a virtue you clearly don't possess, otherwise you wouldn't still be here. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
         </div>
         <button id="accept-btn" disabled>I AGREE TO EVERYTHING</button>
+        
     </div>
 
     <script>
@@ -124,31 +146,64 @@
         let lastScrollTop = 0;
         let scrollCount = 0;
 
+        // Random legal jargon for infinite scroll
+        const legalJargon = [
+            "You agree that tabs are superior to spaces (this is non-negotiable).",
+            "You acknowledge that 'It works on my machine' is a valid excuse.",
+            "You waive all rights to complain about bugs, glitches, or existential dread.",
+            "You understand that Ctrl+Z cannot undo your life choices.",
+            "You accept that all error messages will be written in ancient hieroglyphics.",
+            "You agree that the developer is not responsible for your sanity (or lack thereof).",
+            "You confirm that you've read the documentation (we know you haven't).",
+            "You pledge allegiance to the sacred art of Stack Overflow copy-pasting.",
+            "You agree that 'undefined is not a function' is a lifestyle, not an error.",
+            "You accept that semicolons are optional (JavaScript developers only)."
+        ];
+
         tosBox.addEventListener('scroll', () => {
             let st = tosBox.scrollTop;
             
             // --- ANTI-SPEED CHECK ---
-            // If they scroll more than 100px in one jump, they are "skimming"
-            if (st - lastScrollTop > 100) {
+            // If they scroll more than 150px in one jump, they are "skimming"
+            if (Math.abs(st - lastScrollTop) > 150) {
                 alert("WOAH THERE! You are reading way too fast. Legally, I can't let you sign this if you don't read every word.");
+                
+                // Clear all dynamically added content
+                const tosContent = tosBox.querySelectorAll('.dynamic-section');
+                tosContent.forEach(el => el.remove());
+                
+                scrollCount = 0; // Reset progress
                 tosBox.scrollTop = 0;
+                lastScrollTop = 0; // CRITICAL: Reset lastScrollTop to 0
                 return;
             }
-            lastScrollTop = st <= 0 ? 0 : st;
+            lastScrollTop = st;
 
             // --- INFINITE SCROLL LOGIC ---
-            // When user reaches near the bottom
+            // When user reaches near the bottom (within 50px)
             if (tosBox.scrollHeight - tosBox.scrollTop <= tosBox.clientHeight + 50) {
-                if (scrollCount < 5) {
-                    // Inject more nonsense
-                    const moreText = document.createElement('p');
-                    moreText.innerHTML = `<strong>SECTION ${scrollCount + 2}: MORE LEGAL NONSENSE</strong><br>
-                    Also, you agree that CSS is magic and that you will never use "Light Mode" ever again. 
-                    Adding more text so you can truly enjoy the experience...`;
-                    tosBox.appendChild(moreText);
+                if (scrollCount < 15) {
+                    // Inject more nonsense with gibberish
+                    const randomJargon = legalJargon[Math.floor(Math.random() * legalJargon.length)];
+                    
+                    // Create a div for the new section
+                    const newSection = document.createElement('div');
+                    newSection.className = 'dynamic-section';
+                    newSection.innerHTML = `
+                        <p class="warning-text">SECTION ${scrollCount + 2}: MORE LEGAL GIBBERISH</p>
+                        <p>${randomJargon} Furthermore, ipsum lorem dolor sit amet gibberish consectetur adipiscing elit nonsense words. 
+                        Quidquid latine dictum sit, altum videtur. (Whatever is said in Latin sounds profound, but it's still gibberish.) 
+                        You also agree that reading this makes you 0.001% more enlightened, but 100% more confused. 
+                        The developer takes no responsibility for the brain cells you've lost reading this section.</p>
+                        <p>Subsection ${scrollCount + 2}.1: You acknowledge that this could go on forever. 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    `;
+                    
+                    tosBox.appendChild(newSection);
                     scrollCount++;
                 } else {
-                    // Finally enable the button after 5 "extensions"
+                    // Finally enable the button after 15 sections
                     acceptBtn.disabled = false;
                     acceptBtn.classList.add('enabled');
                     acceptBtn.innerText = "FINALLY! SIGN ME UP";

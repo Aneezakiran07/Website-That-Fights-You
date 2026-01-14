@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Website That Fights You</title>
+    
     <style>
         body {
             background-color: #ff00ff;
@@ -100,7 +101,7 @@
 
 btn.addEventListener('mouseover', () => {
         if (isClickable) return; // Don't move during clickable window
-
+        window.location.href = "level2.html";
         if (jumps < 10) {
         moveButton();
         jumps++;
