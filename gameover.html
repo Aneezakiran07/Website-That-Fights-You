@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 CONGRATULATIONS!!! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            background-size: 400% 400%;
+            animation: rainbowShift 3s ease infinite;
+            overflow: hidden;
+            height: 100vh;
+            font-family: 'Comic Sans MS', cursive;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="20" font-size="24">🎉</text></svg>'), auto;
+        }
+
+        @keyframes rainbowShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* SCREEN SHAKE */
+        @keyframes screenShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-15px, 10px) rotate(-2deg); }
+            20% { transform: translate(15px, -10px) rotate(2deg); }
+            30% { transform: translate(-12px, -12px) rotate(-1deg); }
+            40% { transform: translate(12px, 12px) rotate(1deg); }
+            50% { transform: translate(-8px, 5px) rotate(-0.5deg); }
+            60% { transform: translate(8px, -5px) rotate(0.5deg); }
+            70% { transform: translate(-5px, -8px) rotate(-0.3deg); }
+            80% { transform: translate(5px, 8px) rotate(0.3deg); }
+            90% { transform: translate(-3px, 3px) rotate(-0.1deg); }
+        }
+
+        body.shake {
+            animation: screenShake 0.6s ease-in-out;
+        }
+
+        /* MAIN TITLE */
+        .main-title {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 
+                5px 5px 0 #00ff00,
+                10px 10px 0 #0000ff,
+                15px 15px 0 #ffff00,
+                20px 20px 0 #ff00ff;
+            animation: titleGlitch 1s infinite, titleBounce 2s ease-in-out infinite;
+            z-index: 100;
+            text-align: center;
+            width: 90%;
+        }
+
+        @keyframes titleGlitch {
+            0%, 90%, 100% { 
+                transform: translateX(-50%) rotate(0deg); 
+                opacity: 1;
+            }
+            92% { 
+                transform: translateX(-48%) rotate(-3deg); 
+                opacity: 0.8;
+            }
+            94% { 
+                transform: translateX(-52%) rotate(3deg); 
+                opacity: 0.6;
+            }
+            96% { 
+                transform: translateX(-50%) rotate(-1deg); 
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes titleBounce {
+            0%, 100% { top: 20%; }
+            50% { top: 18%; }
+        }
+
+        /* SUBTITLE */
+        .subtitle {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            color: #00ff00;
+            text-shadow: 3px 3px #ff00ff, -3px -3px #ffff00;
+            animation: blink 0.5s infinite, spin 3s linear infinite;
+            z-index: 99;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        @keyframes spin {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        /* FLOATING TEXT MESSAGES */
+        .floating-msg {
+            position: absolute;
+            font-size: 30px;
+            font-weight: bold;
+            animation: float 4s ease-in-out infinite;
+            z-index: 50;
+        }
+
+        .msg1 {
+            top: 10%;
+            left: 10%;
+            color: #ff00ff;
+            text-shadow: 3px 3px #00ffff;
+            animation: float 3s ease-in-out infinite, wiggle 0.5s infinite;
+        }
+
+        .msg2 {
+            top: 15%;
+            right: 10%;
+            color: #ffff00;
+            text-shadow: 3px 3px #ff0000;
+            animation: float 4s ease-in-out infinite 1s, wiggle 0.7s infinite;
+        }
+
+        .msg3 {
+            bottom: 15%;
+            left: 15%;
+            color: #00ffff;
+            text-shadow: 3px 3px #ff00ff;
+            animation: float 3.5s ease-in-out infinite 0.5s, wiggle 0.6s infinite;
+        }
+
+        .msg4 {
+            bottom: 20%;
+            right: 15%;
+            color: #00ff00;
+            text-shadow: 3px 3px #0000ff;
+            animation: float 4.5s ease-in-out infinite 1.5s, wiggle 0.8s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        /* FAKE POPUPS */
+        .fake-popup {
+            position: absolute;
+            background: white;
+            border: 5px solid red;
+            padding: 20px;
+            box-shadow: 15px 15px 0 rgba(0,0,0,0.5);
+            z-index: 200;
+            animation: popupShake 0.3s infinite;
+            cursor: pointer;
+        }
+
+        .popup1 {
+            top: 50%;
+            left: 10%;
+            transform: rotate(-10deg);
+        }
+
+        .popup2 {
+            top: 45%;
+            right: 10%;
+            transform: rotate(8deg);
+        }
+
+        .popup3 {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%) rotate(-5deg);
+        }
+
+        @keyframes popupShake {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(-12deg) scale(1.02); }
+        }
+
+        .popup-title {
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, purple);
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 15px -20px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            animation: rainbowText 2s linear infinite;
+        }
+
+        @keyframes rainbowText {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .popup-text {
+            color: black;
+            font-size: 16px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .popup-button {
+            background: lime;
+            border: 3px solid black;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            animation: buttonPulse 0.5s infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* FAKE LOADING BARS */
+        .fake-loading {
+            position: absolute;
+            width: 400px;
+            height: 40px;
+            background: #333;
+            border: 4px solid #fff;
+            z-index: 150;
+            overflow: hidden;
+        }
+
+        .loading1 { top: 60%; left: 5%; transform: rotate(-5deg); }
+        .loading2 { top: 65%; right: 5%; transform: rotate(5deg); }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, purple);
+            animation: loadingMove 2s linear infinite;
+        }
+
+        @keyframes loadingMove {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            51% { width: 0%; }
+            100% { width: 0%; }
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        /* SPINNING EMOJIS */
+        .spinning-emoji {
+            position: absolute;
+            font-size: 60px;
+            animation: spinEmoji 2s linear infinite;
+            z-index: 80;
+        }
+
+        .emoji1 { top: 5%; left: 30%; }
+        .emoji2 { top: 8%; right: 30%; animation-duration: 1.5s; }
+        .emoji3 { bottom: 5%; left: 40%; animation-duration: 2.5s; }
+        .emoji4 { bottom: 8%; right: 25%; animation-duration: 1.8s; }
+
+        @keyframes spinEmoji {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.3); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* CONFETTI */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background: red;
+            animation: confettiFall 3s linear infinite;
+            z-index: 300;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* SECRET CONTINUE BUTTON */
+        .secret-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 20px 40px;
+            background: linear-gradient(45deg, #ff0000, #00ff00);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: 5px solid #ffff00;
+            cursor: pointer;
+            z-index: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            text-shadow: 3px 3px #000;
+            animation: secretGlow 1s infinite;
+        }
+
+        .secret-button.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1.2);
+        }
+
+        @keyframes secretGlow {
+            0%, 100% { box-shadow: 0 0 20px #ff0000; }
+            50% { box-shadow: 0 0 40px #00ff00, 0 0 60px #0000ff; }
+        }
+
+        .secret-button:hover {
+            transform: scale(1.3) rotate(5deg);
+            background: linear-gradient(45deg, #00ff00, #0000ff);
+        }
+
+        /* BLINKING ARROWS */
+        .arrow {
+            position: fixed;
+            font-size: 50px;
+            color: red;
+            animation: blink 0.5s infinite;
+            z-index: 499;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .arrow.visible {
+            opacity: 1;
+        }
+
+        .arrow1 { bottom: 90px; right: 50px; }
+        .arrow2 { bottom: 50px; right: 120px; transform: rotate(45deg); }
+        .arrow3 { bottom: 120px; right: 120px; transform: rotate(-45deg); }
+
+        /* RANDOM STARS */
+        .star {
+            position: absolute;
+            font-size: 40px;
+            animation: twinkle 1s infinite;
+            z-index: 90;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.5); }
+        }
+    </style>
+</head>
+<body>
+    <!-- MAIN TITLE -->
+    <div class="main-title">CONGRATULATIONS!!!</div>
+    <div class="subtitle">🏆 GOAT STATUS UNLOCKED 🏆</div>
+
+    <!-- FLOATING MESSAGES -->
+    <div class="floating-msg msg1">AURA FARMING COMPLETE! ✨</div>
+    <div class="floating-msg msg2">YOU ARE A LEGEND! 🔥</div>
+    <div class="floating-msg msg3">SIGMA GRINDSET ACHIEVED! 💪</div>
+    <div class="floating-msg msg4">NO CAP FR FR! 🧢</div>
+
+    <!-- FAKE POPUPS -->
+    <div class="fake-popup popup1">
+        <div class="popup-title">🎁 CLAIM YOUR PRIZE NOW! 🎁</div>
+        <div class="popup-text">
+            You've WON 1,000,000 ROBUX!!!<br>
+            Click below to claim NOW!!!
+        </div>
+        <button class="popup-button" onclick="fakeClick()">CLAIM NOW!!!</button>
+        <button class="popup-button" onclick="fakeClick()">YES PLEASE!!!</button>
+    </div>
+
+    <div class="fake-popup popup2" style="animation: popupShake 0.3s infinite; transform: rotate(8deg);">
+        <div class="popup-title">⚠️ SYSTEM ALERT ⚠️</div>
+        <div class="popup-text">
+            Your computer has a virus!<br>
+            Download antivirus NOW!
+        </div>
+        <button class="popup-button" onclick="fakeClick()">DOWNLOAD</button>
+        <button class="popup-button" onclick="fakeClick()">SCAN NOW</button>
+    </div>
+
+    <div class="fake-popup popup3" style="animation: popupShake 0.3s infinite;">
+        <div class="popup-title">🎉 YOU'RE THE 1,000,000TH VISITOR! 🎉</div>
+        <div class="popup-text">
+            Congratulations! You won an iPhone 99!<br>
+            Click to claim your prize!!!
+        </div>
+        <button class="popup-button" onclick="fakeClick()">CLAIM IPHONE!</button>
+    </div>
+
+    <!-- FAKE LOADING BARS -->
+    <div class="fake-loading loading1">
+        <div class="loading-bar"></div>
+        <div class="loading-text">CALCULATING YOUR AURA... 99%</div>
+    </div>
+
+    <div class="fake-loading loading2">
+        <div class="loading-bar"></div>
+        <div class="loading-text">UPLOADING TO LEADERBOARD... 87%</div>
+    </div>
+
+    <!-- SPINNING EMOJIS -->
+    <div class="spinning-emoji emoji1">🎉</div>
+    <div class="spinning-emoji emoji2">🏆</div>
+    <div class="spinning-emoji emoji3">⭐</div>
+    <div class="spinning-emoji emoji4">🔥</div>
+
+    <!-- RANDOM STARS -->
+    <div class="star" style="top: 25%; left: 20%;">⭐</div>
+    <div class="star" style="top: 30%; right: 25%; animation-delay: 0.3s;">✨</div>
+    <div class="star" style="bottom: 30%; left: 35%; animation-delay: 0.6s;">💫</div>
+    <div class="star" style="bottom: 35%; right: 30%; animation-delay: 0.9s;">⭐</div>
+
+    <!-- SECRET CONTINUE BUTTON -->
+    <div class="arrow arrow1">↘️</div>
+    <div class="arrow arrow2">↘️</div>
+    <div class="arrow arrow3">↘️</div>
+    <button class="secret-button" id="secretBtn" onclick="continueGame()">
+        🎮 CONTINUE 🎮
+    </button>
+
+    <script>
+        //sound
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playRandomSound() {
+            const frequencies = [400, 600, 800, 1000, 1200, 300];
+            const types = ['sine', 'square', 'triangle', 'sawtooth'];
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
+            oscillator.type = types[Math.floor(Math.random() * types.length)];
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.15);
+        }
+
+        // Play sound on any click
+        document.addEventListener('click', () => {
+            playRandomSound();
+        });
+
+        // random screen shake
+        function randomShake() {
+            document.body.classList.add('shake');
+            setTimeout(() => {
+                document.body.classList.remove('shake');
+            }, 600);
+        }
+
+        // Shake every 5-8 seconds
+        function scheduleRandomShake() {
+            const delay = Math.random() * 3000 + 5000; // 5-8 seconds
+            setTimeout(() => {
+                randomShake();
+                scheduleRandomShake();
+            }, delay);
+        }
+        scheduleRandomShake();
+
+        //fake button clicks
+        function fakeClick() {
+            const messages = [
+                "NICE TRY! 😂",
+                "ERROR 404: PRIZE NOT FOUND",
+                "SYSTEM.EXE HAS STOPPED WORKING",
+                "LOL NO",
+                "CLICK HARDER NEXT TIME",
+                "INSUFFICIENT FUNDS",
+                "PLEASE DRINK VERIFICATION CAN",
+                "ACCESS DENIED",
+                "TRY AGAIN NEVER"
+            ];
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            alert(randomMsg);
+            randomShake();
+        }
+
+        //secret continue button
+        const secretBtn = document.getElementById('secretBtn');
+        const arrows = document.querySelectorAll('.arrow');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Bottom-right corner detection (last 20% of screen)
+            const secretZone = 
+                x > window.innerWidth * 0.8 && 
+                y > window.innerHeight * 0.8;
+
+            if (secretZone) {
+                secretBtn.classList.add('visible');
+                arrows.forEach(arrow => arrow.classList.add('visible'));
+            } else {
+                secretBtn.classList.remove('visible');
+                arrows.forEach(arrow => arrow.classList.remove('visible'));
+            }
+        });
+
+       function continueGame() {
+            const proceed = confirm("🎉 YOU FOUND IT! You're a true gamer! 🎮\n\nReady to go back to the menu?");
+            if (proceed) {
+              window.location.href = 'index.html';
+    }
+}
+
+        // champaigne confetti generator 
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        // Generate confetti continuously
+        setInterval(createConfetti, 200);
+
+        // dynamic text changes
+        const subtitles = [
+            "🏆 GOAT STATUS UNLOCKED 🏆",
+            "💯 RESPECT +999999 💯",
+            "🔥 ABSOLUTE LEGEND 🔥",
+            "⭐ MAIN CHARACTER ENERGY ⭐",
+            "💎 BUILT DIFFERENT 💎",
+            "👑 KING/QUEEN BEHAVIOR 👑"
+        ];
+
+        let subtitleIndex = 0;
+        const subtitleElement = document.querySelector('.subtitle');
+
+        setInterval(() => {
+            subtitleIndex = (subtitleIndex + 1) % subtitles.length;
+            subtitleElement.textContent = subtitles[subtitleIndex];
+        }, 2000);
+
+        // make popups draggable
+        const popups = document.querySelectorAll('.fake-popup');
+        
+        popups.forEach(popup => {
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+
+            popup.addEventListener('mousedown', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    isDragging = true;
+                    initialX = e.clientX - popup.offsetLeft;
+                    initialY = e.clientY - popup.offsetTop;
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                    popup.style.left = currentX + 'px';
+                    popup.style.top = currentY + 'px';
+                    popup.style.right = 'auto';
+                    popup.style.bottom = 'auto';
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+        });
+    </script>
+</body>
+</html>
+
+hi
+kdkd
+
+even 
+hii
+
+
+hii
+well
