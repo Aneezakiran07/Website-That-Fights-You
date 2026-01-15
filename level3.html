@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3 - Survival Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #ff6600, #ff8800, #ff6600);
+            background-size: 400% 400%;
+            animation: uglyGradient 5s ease infinite;
+            color: #00ff41;
+            font-family: 'Comic Sans MS', cursive;
+            overflow-x: hidden;
+            height: 300vh;
+            position: relative;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="15" font-size="20">💩</text></svg>'), auto;
+        }
+
+        @keyframes uglyGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #000;
+            padding: 20px;
+            z-index: 1000;
+            border-bottom: 5px solid #ff00ff;
+            box-shadow: 0 0 50px #ff00ff;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #111;
+            border: 2px solid #00ff41;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 99.9999999%;
+            background: linear-gradient(90deg, #00ff41, #00ff88, #00ff41);
+            background-size: 200% 100%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .progress-text {
+            font-family: Impact, sans-serif;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .subtext {
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.7;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff0000;
+            font-family: Impact, sans-serif;
+            font-size: 14px;
+            text-align: center;
+            z-index: 999;
+            text-shadow: 0 0 10px #ff0000;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        .secret-win {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff0000, #ff6666);
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s;
+            border: 4px solid #ffff00;
+            box-shadow: 0 0 20px #ff0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            animation: spin 3s linear infinite;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.5);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .secret-win.glow {
+            box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ff0000;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #00ff00;
+        }
+
+        .secret-win:hover {
+            box-shadow: 0 0 50px #ff0000;
+            width: 70px;
+            height: 70px;
+        }
+
+        /* FAKE COUNTDOWN CLOCKS */
+        .fake-timer {
+            position: fixed;
+            background: red;
+            color: white;
+            padding: 15px 25px;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 18px;
+            border: 3px solid yellow;
+            z-index: 500;
+            animation: shake 0.5s infinite;
+            box-shadow: 0 0 30px red;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-5px, 5px) rotate(-2deg); }
+            50% { transform: translate(5px, -5px) rotate(2deg); }
+            75% { transform: translate(-5px, -5px) rotate(-1deg); }
+        }
+
+        .fake-timer.timer1 { top: 100px; left: 20px; }
+        .fake-timer.timer2 { top: 100px; right: 20px; }
+        .fake-timer.timer3 { top: 200px; left: 50%; transform: translateX(-50%); }
+        .fake-timer.timer4 { bottom: 100px; left: 50px; }
+        .fake-timer.timer5 { bottom: 100px; right: 50px; }
+
+        /* ANNOYING POP-UPS */
+        .fake-popup {
+            position: fixed;
+            background: white;
+            border: 5px solid blue;
+            padding: 20px;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
+            z-index: 600;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+
+        .fake-popup.popup1 {
+            top: 300px;
+            left: 100px;
+            transform: rotate(-5deg);
+        }
+
+        .fake-popup.popup2 {
+            top: 400px;
+            right: 100px;
+            transform: rotate(5deg);
+        }
+
+        .popup-title {
+            background: blue;
+            color: white;
+            padding: 5px;
+            margin: -20px -20px 10px -20px;
+            font-weight: bold;
+        }
+
+        .popup-button {
+            background: #ddd;
+            border: 2px solid #999;
+            padding: 5px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        /* FAKE LOADING BARS */
+        .fake-loading {
+            position: fixed;
+            width: 300px;
+            height: 30px;
+            background: #333;
+            border: 2px solid #fff;
+            z-index: 550;
+        }
+
+        .fake-loading.load1 { top: 250px; left: 150px; }
+        .fake-loading.load2 { bottom: 200px; right: 150px; }
+
+        .loading-fill {
+            height: 100%;
+            background: lime;
+            animation: fakeLoad 3s infinite;
+        }
+
+        @keyframes fakeLoad {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            51% { width: 0%; }
+            100% { width: 0%; }
+        }
+
+        /* SPINNING TEXT */
+        .spinning-text {
+            position: fixed;
+            font-size: 40px;
+            font-weight: bold;
+            color: magenta;
+            text-shadow: 3px 3px yellow;
+            animation: spinText 2s linear infinite;
+            z-index: 400;
+        }
+
+        .spinning-text.spin1 { top: 150px; left: 300px; }
+        .spinning-text.spin2 { bottom: 150px; right: 300px; }
+
+        @keyframes spinText {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .maze-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            padding-top: 200px;
+        }
+
+        .nav-button {
+            position: absolute;
+            padding: 20px 40px;
+            background: #ff00ff;
+            color: yellow;
+            border: 5px dashed #00ffff;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.05s ease;
+            box-shadow: 0 0 20px #ff00ff;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background: #00ffff;
+            color: #ff00ff;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .content {
+            padding: 200px 50px 50px 50px;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-shadow: 5px 5px #ff00ff;
+            animation: glitch 3s infinite;
+            color: #ffff00;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+            98% { transform: translate(2px, 2px); }
+        }
+
+        .content p {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #ffffff;
+            text-shadow: 2px 2px #000;
+        }
+
+        .warning {
+            background: rgba(255, 255, 0, 0.8);
+            border: 5px solid #ff0000;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 600px;
+            color: #ff0000;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            animation: warning-pulse 1s infinite;
+        }
+
+        @keyframes warning-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* FAKE DIALOGS */
+        .error-dialog {
+            position: fixed;
+            background: red;
+            color: white;
+            padding: 30px;
+            border: 10px solid black;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 700;
+            animation: errorShake 0.3s infinite;
+        }
+
+        .error-dialog.error1 { top: 50%; left: 20%; }
+        .error-dialog.error2 { top: 60%; right: 20%; }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        /* SCREEN SHAKE ANIMATIO*/
+        @keyframes screenShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-10px, 5px) rotate(-1deg); }
+            20% { transform: translate(10px, -5px) rotate(1deg); }
+            30% { transform: translate(-8px, -8px) rotate(-0.5deg); }
+            40% { transform: translate(8px, 8px) rotate(0.5deg); }
+            50% { transform: translate(-5px, 3px) rotate(-0.5deg); }
+            60% { transform: translate(5px, -3px) rotate(0.5deg); }
+            70% { transform: translate(-3px, -5px) rotate(-0.3deg); }
+            80% { transform: translate(3px, 5px) rotate(0.3deg); }
+            90% { transform: translate(-2px, 2px) rotate(-0.1deg); }
+        }
+
+        body.shake {
+            animation: screenShake 0.5s ease-in-out;
+        }
+        /* Glitching elements */
+        .glitch-element {
+            animation: glitchEffect 3s infinite;
+        }
+
+        @keyframes glitchEffect {
+            0%, 90%, 100% {
+            transform: translate(0, 0);
+            opacity: 1;
+            filter: hue-rotate(0deg);
+        }
+        91% {
+        transform: translate(-5px, 2px);
+        opacity: 0.8;
+        filter: hue-rotate(90deg);
+        }
+        92% {
+        transform: translate(5px, -2px);
+        opacity: 0.6;
+        filter: hue-rotate(180deg);
+        }
+        93% {
+        transform: translate(-3px, -3px);
+        opacity: 0.9;
+        filter: hue-rotate(270deg);
+        }
+        94% {
+        transform: translate(3px, 3px);
+        opacity: 0.7;
+        filter: hue-rotate(45deg);
+        }
+        95% {
+        transform: translate(0, 0);
+        opacity: 1;
+        filter: hue-rotate(0deg);
+        }
+}
+
+    .glitch-intense {
+    animation: glitchIntense 2s infinite;
+    }
+
+    @keyframes glitchIntense {
+    0%, 85%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+        filter: hue-rotate(0deg) saturate(1);
+    }
+    86% {
+        transform: translate(-10px, 5px) scale(1.05);
+        opacity: 0.5;
+        filter: hue-rotate(180deg) saturate(3);
+    }
+    87% {
+        transform: translate(10px, -5px) scale(0.95);
+        opacity: 0.3;
+        filter: hue-rotate(90deg) saturate(5);
+    }
+    88% {
+        transform: translate(-8px, -8px) scale(1.1);
+        opacity: 0.6;
+        filter: hue-rotate(270deg) saturate(2);
+    }
+    90% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+        filter: hue-rotate(0deg) saturate(1);
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">ESTIMATED SUCCESS PROGRESS: 99.9999999%</div>
+        <div class="subtext">Your mouse seems to be struggling. Have you tried turning your hand upside down? BTW, HINT IS IN THE BOTTOM</div>
+    </div>
+
+    <!-- VICTORY BUTTON - BIG SPINNING SQUARE -->
+    <a href="level4.html" class="secret-win" id="victoryBtn">🎯</a>
+
+    <!-- FAKE COUNTDOWN TIMERS -->
+   <div class="fake-timer timer1 glitch-element">⏰ 9:47 LEFT!</div>
+    <div class="fake-timer timer2 glitch-element">⚠️ 10:12 REMAINING</div>
+    <div class="fake-timer timer3 glitch-intense">🚨 LEVEL RESET IN 10:00 🚨</div>
+    <div class="fake-timer timer4 glitch-element">⏳ 9:59... 9:58...</div>
+    <div class="fake-timer timer5 glitch-element">❌ TIME'S UP IN 10 MIN!</div>
+
+    <!-- FAKE POPUP WINDOWS -->
+    <div class="fake-popup popup1">
+        <div class="popup-title">⚠️ Windows Security Alert</div>
+        <p style="margin: 10px 0;">Your system has been compromised! Click OK to fix.</p>
+        <button class="popup-button">OK</button>
+        <button class="popup-button">Cancel</button>
+        <button class="popup-button">Help</button>
+    </div>
+
+    <div class="fake-popup popup2">
+        <div class="popup-title">🎉 Congratulations!</div>
+        <p style="margin: 10px 0;">You're the 1,000,000th visitor! Claim your prize NOW!</p>
+        <button class="popup-button">CLAIM NOW</button>
+        <button class="popup-button">Later</button>
+    </div>
+
+    <!-- FAKE LOADING BARS -->
+    <div class="fake-loading load1">
+        <div class="loading-fill"></div>
+    </div>
+    <div class="fake-loading load2">
+        <div class="loading-fill"></div>
+    </div>
+
+    <!-- SPINNING TEXT -->
+    <div class="spinning-text spin1 glitch-element">LOADING...</div>
+    <div class="spinning-text spin2 glitch-element">ERROR!</div>
+    <!-- FAKE ERROR DIALOGS -->
+    <div class="error-dialog error1 glitch-intense">⛔ FATAL ERROR ⛔</div>
+    <div class="error-dialog error2 glitch-intense">❌ SYSTEM CRASH ❌</div>
+   
+
+    <div class="hint">
+        HINT: THE SUCCESS BUTTON LIES IN A STEP OF YOUR SUCCESS. &lt; FIND IT &gt;<br>
+        THIS LEVEL IS EASY &lt; USER IS JUST.... &gt;
+    </div>
+
+    <div class="maze-container">
+        <button class="nav-button" id="btn1" data-original="HOME">HOME</button>
+        <button class="nav-button" id="btn2" data-original="ABOUT">ABOUT</button>
+        <button class="nav-button" id="btn3" data-original="DONT">DON'T CLICK</button>
+        <button class="nav-button" id="btn4" data-original="PROCEED">PROCEED</button>
+    </div>
+
+    <div class="content">
+        <h1>WELCOME TO LEVEL 3</h1>
+        <p>
+            Congratulations on making it this far! You're doing great... or are you? 
+            Your progress bar suggests you're almost done, but something tells me you're 
+            just getting started.
+        </p>
+        <p>
+            Navigate through the maze of buttons to proceed. Simple, right? Just click 
+            the PROCEED button. What could possibly go wrong?
+        </p>
+        <div class="warning">
+            ⚠️ WARNING: This level may cause severe frustration, mouse throwing, and 
+            existential questioning of your life choices. Proceed at your own risk.
+        </div>
+        <p>
+            Oh, and did we mention the scroll might feel a bit... off? That's intentional. 
+            We're testing your adaptability. Think of it as a feature, not a bug.
+        </p>
+        <p>
+            Still here? Brave soul. The exit is closer than you think. Or is it farther? 
+            Who can say, really?
+        </p>
+    </div>
+
+    <script>
+        // Drunken Navigation Setup
+        const buttons = [
+            document.getElementById('btn1'),
+            document.getElementById('btn2'),
+            document.getElementById('btn3'),
+            document.getElementById('btn4')
+        ];
+
+        // Initial random positions
+        const positions = [
+            { top: 300, left: 150 },
+            { top: 300, left: 600 },
+            { top: 500, left: 150 },
+            { top: 500, left: 600 }
+        ];
+
+        // Shuffle positions
+        for (let i = positions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [positions[i], positions[j]] = [positions[j], positions[i]];
+        }
+
+        buttons.forEach((btn, i) => {
+            btn.style.top = positions[i].top + 'px';
+            btn.style.left = positions[i].left + 'px';
+        });
+        // MAKE BUTTONS FLY AROUND
+        const flyingButtons = buttons.map(btn => ({
+        el: btn,
+        x: parseFloat(btn.style.left),
+        y: parseFloat(btn.style.top),
+        dx: (Math.random() * 2 + 1) * (Math.random() > 0.5 ? 1 : -1),
+        dy: (Math.random() * 2 + 1) * (Math.random() > 0.5 ? 1 : -1)
+    }));
+
+        setInterval(() => {
+        flyingButtons.forEach(obj => {
+        obj.x += obj.dx;
+        obj.y += obj.dy;
+
+        const rect = obj.el.getBoundingClientRect();
+
+        // bounce from edges
+        if (obj.x <= 0 || obj.x + rect.width >= window.innerWidth) {
+            obj.dx *= -1;
+        }
+
+        if (obj.y <= 120 || obj.y + rect.height >= window.innerHeight) {
+            obj.dy *= -1;
+        }
+
+        obj.el.style.left = obj.x + 'px';
+        obj.el.style.top = obj.y + 'px';
+         });
+        }, 16); // ~60fps
+
+
+        // Mouse proximity detection for buttons
+        let lastSwapTime = 0;
+        const swapCooldown = 300;
+
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastSwapTime < swapCooldown) return;
+
+            buttons.forEach((btn, idx) => {
+                const rect = btn.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - centerX, 2) + 
+                    Math.pow(e.clientY - centerY, 2)
+                );
+
+                if (distance < 60) {
+                    const otherIdx = (idx + 1 + Math.floor(Math.random() * 3)) % 4;
+                    const otherBtn = buttons[otherIdx];
+
+                    const tempTop = btn.style.top;
+                    const tempLeft = btn.style.left;
+                    
+                    btn.style.top = otherBtn.style.top;
+                    btn.style.left = otherBtn.style.left;
+                    
+                    otherBtn.style.top = tempTop;
+                    otherBtn.style.left = tempLeft;
+
+                    lastSwapTime = now;
+                }
+            });
+        });
+
+        buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const label = btn.getAttribute('data-original');
+        
+        playAnnoyingSound();
+        
+        if (label === 'PROCEED') {
+            shakeScreen(); 
+            alert('NICE TRY, BUT NO.');
+            location.reload();
+        } else if (label === 'DONT') {
+            shakeScreen(); 
+            alert('I SPECIFICALLY TOLD YOU NOT TO CLICK THIS. NOW LOOK WHAT YOU\'VE DONE.');
+        } else if (label === 'HOME') {
+            shakeScreen(); // 
+            alert('There is no home. Only suffering.');
+        } else if (label === 'ABOUT') {
+            shakeScreen(); // 
+            alert('This is about watching you struggle. That\'s literally it.');
+        }
+    });
+});
+
+       // ============================================
+//random popup noise ( i hope user play this with noise on :"()")
+// Using Web Audio API to generate annoying beep sounds
+
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+function playAnnoyingSound() {
+    const sounds = ['beep', 'boop', 'buzz', 'honk', 'blip'];
+    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Different frequencies for different "sounds"
+    switch(randomSound) {
+        case 'beep':
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            break;
+        case 'boop':
+            oscillator.frequency.value = 400;
+            oscillator.type = 'square';
+            break;
+        case 'buzz':
+            oscillator.frequency.value = 200;
+            oscillator.type = 'sawtooth';
+            break;
+        case 'honk':
+            oscillator.frequency.value = 150;
+            oscillator.type = 'triangle';
+            break;
+        case 'blip':
+            oscillator.frequency.value = 1000;
+            oscillator.type = 'sine';
+            break;
+    }
+    
+    // Quick fade out
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.2);
+}
+
+        // Make fake popups draggable (but they do nothing)
+        document.querySelectorAll('.popup-button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        playAnnoyingSound(); // ← ADD THIS LINE
+        alert('This button does NOTHING. Keep looking! 😈');
+    });
+});
+
+        // Update countdown timers with fake countdown
+        const timers = document.querySelectorAll('.fake-timer');
+        let fakeMinutes = 10;
+        let fakeSeconds = 0;
+        
+        setInterval(() => {
+            fakeSeconds--;
+            if (fakeSeconds < 0) {
+                fakeSeconds = 59;
+                fakeMinutes--;
+            }
+            if (fakeMinutes < 0) {
+                fakeMinutes = 10;
+                fakeSeconds = 0;
+            }
+            
+            const timeStr = `${fakeMinutes}:${fakeSeconds.toString().padStart(2, '0')}`;
+            timers[0].textContent = `⏰ ${timeStr} LEFT!`;
+            timers[3].textContent = `⏳ ${timeStr}... HURRY!`;
+        }, 1000);
+
+        //making the success button appear
+        const victoryBtn = document.getElementById('victoryBtn');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            const secretZone =
+            x > window.innerWidth * 0.8 &&   // right 20%
+            y < window.innerHeight * 0.25;   // top 25%
+
+    if (secretZone) {
+        victoryBtn.style.opacity = '1';
+        victoryBtn.style.pointerEvents = 'auto';
+        victoryBtn.style.transform = 'scale(1)';
+        victoryBtn.classList.add('glow');
+    } else {
+        victoryBtn.style.opacity = '0';
+        victoryBtn.style.pointerEvents = 'none';
+        victoryBtn.style.transform = 'scale(0.5)';
+        victoryBtn.classList.remove('glow');
+    }
+
+});
+//shake screen, ik this function sucks but anyways
+    function shakeScreen() {
+        document.body.classList.add('shake');
+    
+     // Remove the class after animation completes
+        setTimeout(() => {
+        document.body.classList.remove('shake');
+    }   , 500);
+}
+
+    </script>
+</body>
+</html>
+
+
