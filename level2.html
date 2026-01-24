@@ -6,24 +6,73 @@
     <title>THE VOID - LEVEL 2</title>
     <style>
         body {
-            background-color: #00ffff; /* Eye-melting Cyan */
-            background-image: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 20px,
-                rgba(255, 0, 0, 0.1) 20px,
-                rgba(255, 0, 0, 0.1) 40px
-            );
+            background: linear-gradient(45deg, #ff0080 0%, #00ffff 25%, #80ff00 50%, #ff00ff 75%, #ffff00 100%);
+            background-size: 400% 400%;
+            animation: rainbow-bg 3s ease infinite, bg-pulse 1.5s ease-in-out infinite;
+            position: relative;
             font-family: 'Comic Sans MS', cursive;
             margin: 0;
-            padding-top: 120px; /* Space for the sassy header */
+            padding-top: 120px;
             display: flex;
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
         }
 
-        /* --- SASSY PROGRESS HEADER --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 11px),
+                repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 0.2) 10px, rgba(255, 255, 255, 0.2) 11px),
+                repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255, 0, 0, 0.1) 15px, rgba(255, 0, 0, 0.1) 16px),
+                repeating-linear-gradient(-45deg, transparent, transparent 15px, rgba(0, 255, 0, 0.1) 15px, rgba(0, 255, 0, 0.1) 16px);
+            animation: grid-move 4s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 20%, rgba(255, 0, 255, 0.3) 21%, transparent 21%),
+                        radial-gradient(circle, transparent 20%, rgba(0, 255, 255, 0.3) 21%, transparent 21%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            animation: dots-spin 8s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes rainbow-bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes bg-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        @keyframes dots-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .progress-container {
             width: 100%;
             background: #000;
@@ -34,13 +83,26 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            animation: header-shake 0.5s infinite;
+        }
+
+        @keyframes header-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
         }
 
         .progress-text {
             font-size: 18px;
             color: #00ff00;
             font-weight: bold;
-            text-shadow: 2px 2px #ff00ff;
+            text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
+            animation: text-glitch 1s infinite;
+        }
+
+        @keyframes text-glitch {
+            0%, 100% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+            50% { text-shadow: -2px 2px #00ffff, 2px -2px #ff00ff; }
         }
 
         .progress-bar {
@@ -49,6 +111,12 @@
             background: #333;
             margin: 10px auto;
             border: 2px solid #00ff00;
+            animation: bar-jitter 0.2s infinite;
+        }
+
+        @keyframes bar-jitter {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(0.5deg); }
         }
 
         .progress-fill {
@@ -64,7 +132,6 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* --- THE TOS BOX --- */
         .tos-wrapper {
             background: #fff;
             width: 80%;
@@ -73,13 +140,36 @@
             padding: 20px;
             color: #000;
             position: relative;
-            margin-bottom: 50px; /* Add space at bottom */
+            margin-bottom: 50px;
+            z-index: 2;
+            animation: wrapper-wobble 2s ease-in-out infinite;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 255, 0.5),
+                0 0 40px rgba(0, 255, 255, 0.3),
+                inset 0 0 20px rgba(255, 255, 0, 0.1);
+        }
+
+        @keyframes wrapper-wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(0.5deg); }
+            75% { transform: rotate(-0.5deg); }
         }
 
         .tos-wrapper h1 {
             text-align: center;
             margin-bottom: 10px;
             color: #000;
+            animation: title-rainbow 2s linear infinite;
+        }
+
+        @keyframes title-rainbow {
+            0% { color: #ff0000; }
+            16% { color: #ff8800; }
+            33% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66% { color: #0088ff; }
+            83% { color: #8800ff; }
+            100% { color: #ff0000; }
         }
 
         #tos-box {
@@ -101,52 +191,33 @@
             color: red;
             font-weight: bold;
             text-decoration: underline;
+            animation: warning-pulse 1s infinite;
         }
 
-        #accept-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 15px 30px;
-            font-size: 20px;
-            background-color: #ccc; /* Disabled look */
-            color: #888;
-            border: 5px outset #888;
-            cursor: not-allowed;
-        }
-
-        .enabled {
-            background-color: #00ff00 !important;
-            color: #000 !important;
-            cursor: pointer !important;
-            border: 5px outset #00ff00 !important;
+        @keyframes warning-pulse {
+            0%, 100% { color: red; transform: scale(1); }
+            50% { color: #ff6600; transform: scale(1.05); }
         }
 
         .rage-clock {
-            position: absolute;
-            top: -40px;
+            position: fixed;
             background: #ff0000;
             color: #00ff00;
             padding: 8px 12px;
             font-size: 14px;
             border: 4px dashed #000;
-            transform: rotate(-3deg);
-            animation: jitter 0.3s infinite alternate;
+            animation: clock-crazy 0.2s infinite;
+            z-index: 9998;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
         }
 
-        .rage-clock.right {
-            right: -20px;
-            background: #0000ff;
-            color: #ffff00;
-            transform: rotate(4deg);
-        }
-
-        .rage-clock.left {
-            left: -20px;
-        }
-
-        @keyframes jitter {
-            from { transform: translateX(0) rotate(2deg); }
-            to { transform: translateX(3px) rotate(-2deg); }
+        @keyframes clock-crazy {
+            0% { transform: rotate(-3deg) scale(1); }
+            25% { transform: rotate(3deg) scale(1.1); }
+            50% { transform: rotate(-2deg) scale(0.95); }
+            75% { transform: rotate(4deg) scale(1.05); }
+            100% { transform: rotate(-3deg) scale(1); }
         }
 
         .rage-buttons {
@@ -158,24 +229,33 @@
         }
 
         .rage-buttons button {
-            padding: 10px;
+            padding: 10px 20px;
             font-size: 14px;
             font-family: Impact, Comic Sans MS;
             border: 3px groove black;
             cursor: pointer;
+            font-weight: bold;
         }
 
         .good { background: hotpink; color: black; }
-        .evil { background: hotpink; }
+        .evil { background: hotpink; color: black; }
         .trap { background: black; color: white; }
+        .fake { background: lime; color: black; }
+        .decoy { background: orange; color: black; }
 
         .glow {
-            animation: glowPulse 0.8s infinite alternate;
+            animation: glowPulse 0.8s infinite alternate, mega-spin 2s linear infinite !important;
             box-shadow:
                 0 0 10px hotpink,
                 0 0 25px hotpink,
                 0 0 40px deeppink,
-                0 0 60px magenta;
+                0 0 60px magenta !important;
+            transform: scale(1.2) !important;
+        }
+
+        @keyframes mega-spin {
+            0% { transform: rotate(0deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1.2); }
         }
 
         .flying {
@@ -185,11 +265,11 @@
         }
 
         @keyframes flyAround {
-            0% { top: 10%; left: 10%; }
-            25% { top: 20%; left: 80%; }
-            50% { top: 70%; left: 60%; }
-            75% { top: 80%; left: 20%; }
-            100% { top: 10%; left: 10%; }
+            0% { top: 10%; left: 10%; transform: rotate(0deg); }
+            25% { top: 20%; left: 80%; transform: rotate(90deg); }
+            50% { top: 70%; left: 60%; transform: rotate(180deg); }
+            75% { top: 80%; left: 20%; transform: rotate(270deg); }
+            100% { top: 10%; left: 10%; transform: rotate(360deg); }
         }
 
         @keyframes glowPulse {
@@ -206,6 +286,33 @@
                     0 0 80px magenta;
             }
         }
+
+        /* Annoying floating emojis */
+        .floating-emoji {
+            position: fixed;
+            font-size: 40px;
+            animation: emoji-float 5s infinite ease-in-out;
+            z-index: 9997;
+            pointer-events: none;
+        }
+
+        @keyframes emoji-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(180deg); }
+        }
+
+        /* Flashing border chaos */
+        @keyframes border-flash {
+            0% { border-color: red; }
+            25% { border-color: lime; }
+            50% { border-color: blue; }
+            75% { border-color: yellow; }
+            100% { border-color: red; }
+        }
+
+        #tos-box {
+            animation: border-flash 1s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -216,10 +323,6 @@
     </div>
 
     <div class="tos-wrapper">
-        <!-- the clocks -->
-        <div class="rage-clock left">⏰ 5 MIN LEFT</div>
-        <div class="rage-clock right">⏰ 10 MIN LEFT</div>
-
         <h1>LEGALLY BINDING OATH</h1>
         <p>You must read the entire document to proceed. No skimming!</p>
         <div id="tos-box">
@@ -239,32 +342,61 @@
         <div class="rage-buttons">
             <button class="good" disabled>NEXT LEVEL</button>
             <button class="evil">CONTINUE</button>
+            <button class="fake">NEXT LEVEL</button>
+            <button class="evil">I UNDERSTAND</button>
+            <button class="trap">SKIP</button>
+            <button class="decoy">NEXT LEVEL</button>
+            <button class="evil">AGREE</button>
+            <button class="fake">NEXT LEVEL</button>
             <button class="evil">I UNDERSTAND</button>
             <button class="trap">SKIP</button>
             <button class="evil">AGREE</button>
-            <button class="evil">I UNDERSTAND</button>
+            <button class="decoy">NEXT LEVEL</button>
+            <button class="fake">CONTINUE</button>
             <button class="trap">SKIP</button>
-            <button class="evil">AGREE</button>
+            <button class="evil">ACCEPT</button>
+            <button class="decoy">NEXT LEVEL</button>
         </div>
     </div>
 
     <script>
-        const goodBtn = document.querySelector('.good'); // the next level button
-        const clocks = document.querySelectorAll('.rage-clock'); // grab all clocks
+        // Create floating emojis for extra chaos
+        const emojis = ['😵', '🤪', '😵‍💫', '🤬', '😤', '💀', '👻', '🔥', '💩', '🤡'];
+        for (let i = 0; i < 15; i++) {
+            const emoji = document.createElement('div');
+            emoji.className = 'floating-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.top = Math.random() * 100 + '%';
+            emoji.style.animationDelay = Math.random() * 5 + 's';
+            emoji.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(emoji);
+        }
 
-        // Randomize clock times every 2.5s (fun chaos)
+        // Create multiple floating clocks
+        const clockTexts = ["⏰ 2 MIN LEFT", "⏰ 5 MIN LEFT", "⏰ 10 MIN LEFT", "⏰ ALMOST DONE", "⏰ WAIT WHY MORE TIME", "⏰ FOREVER LEFT", "⏰ TIME IS FAKE"];
+        for (let i = 0; i < 8; i++) {
+            const clock = document.createElement('div');
+            clock.className = 'rage-clock';
+            clock.innerHTML = clockTexts[i % clockTexts.length];
+            document.body.appendChild(clock);
+        }
+
+        const goodBtn = document.querySelector('.good');
+        const clocks = document.querySelectorAll('.rage-clock');
+
+        // Randomize ALL clock times constantly
         setInterval(() => {
             clocks.forEach(clock => {
-                const fakeTimes = ["2 MIN LEFT", "5 MIN LEFT", "10 MIN LEFT", "ALMOST DONE", "WAIT WHY MORE TIME"];
-                clock.innerHTML = "⏰ " + fakeTimes[Math.floor(Math.random() * fakeTimes.length)];
+                const fakeTimes = ["⏰ 2 MIN", "⏰ 5 MIN", "⏰ 10 MIN", "⏰ DONE", "⏰ WHY MORE", "⏰ FOREVER", "⏰ FAKE TIME", "⏰ NEVER END"];
+                clock.innerHTML = fakeTimes[Math.floor(Math.random() * fakeTimes.length)];
             });
-        }, 2500);
+        }, 1500);
 
         const tosBox = document.getElementById('tos-box');
         let lastScrollTop = 0;
         let scrollCount = 0;
 
-        // Random legal jargon for infinite scroll
         const legalJargon = [
             "You agree that tabs are superior to spaces (this is non-negotiable).",
             "You acknowledge that 'It works on my machine' is a valid excuse.",
@@ -275,29 +407,34 @@
             "You confirm that you've read the documentation (we know you haven't).",
             "You pledge allegiance to the sacred art of Stack Overflow copy-pasting.",
             "You agree that 'undefined is not a function' is a lifestyle, not an error.",
-            "You accept that semicolons are optional (JavaScript developers only)."
+            "You accept that semicolons are optional (JavaScript developers only).",
+            "You acknowledge that 'git push --force' is sometimes the only way.",
+            "You agree that CSS is black magic and should be treated as such."
         ];
 
-        // handle scrolling inside the TOS box
+        let scrollTimeout;
         tosBox.addEventListener('scroll', () => {
             let st = tosBox.scrollTop;
 
-            // anti-speed check, don't let them skim
-            if (Math.abs(st - lastScrollTop) > 150) {
-                alert("WOAH THERE! You are reading way too fast. Legally, I can't let you sign this if you don't read every word.");
+            // Clear previous timeout
+            clearTimeout(scrollTimeout);
+            
+            // Check speed only after a small delay (50ms) to allow smooth scrolling
+            scrollTimeout = setTimeout(() => {
+                if (Math.abs(st - lastScrollTop) > 300) {
+                    alert("WOAH THERE! You are reading way too fast. Legally, I can't let you sign this if you don't read every word.");
 
-                // remove dynamically added gibberish
-                const tosContent = tosBox.querySelectorAll('.dynamic-section');
-                tosContent.forEach(el => el.remove());
+                    const tosContent = tosBox.querySelectorAll('.dynamic-section');
+                    tosContent.forEach(el => el.remove());
 
-                scrollCount = 0; // reset progress
-                tosBox.scrollTop = 0;
-                lastScrollTop = 0; // reset last scroll
-                return;
-            }
-            lastScrollTop = st;
+                    scrollCount = 0;
+                    tosBox.scrollTop = 0;
+                    lastScrollTop = 0;
+                    return;
+                }
+                lastScrollTop = st;
+            }, 50);
 
-            // infinite scroll logic, add more gibberish
             if (tosBox.scrollHeight - tosBox.scrollTop <= tosBox.clientHeight + 50) {
                 if (scrollCount < 20) {
                     const randomJargon = legalJargon[Math.floor(Math.random() * legalJargon.length)];
@@ -316,47 +453,65 @@
                     tosBox.appendChild(newSection);
                     scrollCount++;
                 } else {
-                    // user reached end, enable NEXT LEVEL
                     goodBtn.removeAttribute('disabled');
                     goodBtn.classList.add('glow');
-                    goodBtn.style.animationDuration = "10s"; // mercy: slower fly
                 }
             }
         });
 
-        // evil buttons reset scroll
-        document.querySelectorAll('.evil').forEach(btn => {
+        // Make ALL fake buttons reset
+        document.querySelectorAll('.evil, .fake, .decoy').forEach(btn => {
             btn.addEventListener('click', () => {
+                const insults = [
+                    "WRONG BUTTON! 🤣",
+                    "NOT THIS ONE! 😂",
+                    "TRY AGAIN LOSER! 💀",
+                    "NOPE! READ AGAIN! 🤪",
+                    "HAHA GOTCHA! 😈"
+                ];
+                alert(insults[Math.floor(Math.random() * insults.length)] + " Please read everything again.");
                 tosBox.scrollTop = 0;
-                alert("You clicked the wrong button. Please read everything again 🙂");
+                scrollCount = 0;
+                
+                // Remove glow from good button
+                goodBtn.setAttribute('disabled', 'true');
+                goodBtn.classList.remove('glow');
+                
+                // Remove dynamic sections
+                const tosContent = tosBox.querySelectorAll('.dynamic-section');
+                tosContent.forEach(el => el.remove());
             });
         });
 
-        // trap button: skip illegal
-        document.querySelector('.trap').addEventListener('click', () => {
-            alert("Skipping is illegal.");
-            tosBox.scrollTop = 0;
-            scrollCount = 0;
+        document.querySelectorAll('.trap').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert("Skipping is ILLEGAL! Start over! 👮");
+                tosBox.scrollTop = 0;
+                scrollCount = 0;
+                goodBtn.setAttribute('disabled', 'true');
+                goodBtn.classList.remove('glow');
+                const tosContent = tosBox.querySelectorAll('.dynamic-section');
+                tosContent.forEach(el => el.remove());
+            });
         });
 
-        // good button click: move to next level
-        document.querySelector('.good').addEventListener('click', () => {
-            alert("Congratulations! You are emotionally ready for the next level.");
-            window.location.href = "level3.html";
+        goodBtn.addEventListener('click', () => {
+            if (!goodBtn.hasAttribute('disabled')) {
+                alert("Congratulations! You are emotionally ready for the next level. 🎉");
+                window.location.href = "level3.html";
+            }
         });
 
-        // make all buttons fly randomly
+        // Make ALL buttons fly
         document.querySelectorAll('.rage-buttons button').forEach(btn => {
             btn.classList.add('flying');
-            btn.style.animationDuration = (Math.random() * 5 + 4) + "s"; // random speed
+            btn.style.animationDuration = (Math.random() * 4 + 3) + "s";
         });
 
-        // make the clocks fly too
+        // Make all clocks fly with different speeds
         clocks.forEach(clock => {
-            clock.classList.add('flying');
-            clock.style.animationDuration = (Math.random() * 6 + 5) + "s"; // random speed
+            clock.style.animation = `flyAround ${Math.random() * 5 + 4}s infinite linear, clock-crazy 0.2s infinite`;
         });
-
     </script>
 </body>
 </html>

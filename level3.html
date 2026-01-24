@@ -12,9 +12,13 @@
         }
 
         body {
-            background: linear-gradient(45deg, #ff6600, #ff8800, #ff6600);
-            background-size: 400% 400%;
-            animation: uglyGradient 5s ease infinite;
+            background: 
+                repeating-linear-gradient(45deg, #ff00ff 0px, #ff00ff 10px, #00ffff 10px, #00ffff 20px),
+                repeating-linear-gradient(-45deg, #ffff00 0px, #ffff00 15px, #ff0000 15px, #ff0000 30px),
+                repeating-linear-gradient(90deg, #00ff00 0px, #00ff00 5px, transparent 5px, transparent 10px);
+            background-blend-mode: difference, overlay, screen;
+            background-size: 100px 100px, 150px 150px, 50px 50px;
+            animation: uglyGradient 3s ease infinite, colorShift 8s linear infinite, backgroundSpin 20s linear infinite;
             color: #00ff41;
             font-family: 'Comic Sans MS', cursive;
             overflow-x: hidden;
@@ -24,9 +28,22 @@
         }
 
         @keyframes uglyGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% { background-position: 0% 50%, 100% 50%, 0% 0%; }
+            50% { background-position: 100% 50%, 0% 50%, 100% 100%; }
+            100% { background-position: 0% 50%, 100% 50%, 0% 0%; }
+        }
+
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg) saturate(3) brightness(1.2); }
+            25% { filter: hue-rotate(90deg) saturate(5) brightness(0.8); }
+            50% { filter: hue-rotate(180deg) saturate(3) brightness(1.5); }
+            75% { filter: hue-rotate(270deg) saturate(4) brightness(0.9); }
+            100% { filter: hue-rotate(360deg) saturate(3) brightness(1.2); }
+        }
+
+        @keyframes backgroundSpin {
+            0% { background-position: 0 0, 0 0, 0 0; }
+            100% { background-position: 400px 400px, -400px -400px, 200px 200px; }
         }
 
         .header {
@@ -34,11 +51,19 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: #000;
+            background: linear-gradient(90deg, #000000, #330033, #000066, #003300, #000000);
+            background-size: 400% 100%;
+            animation: headerShift 5s linear infinite;
             padding: 20px;
             z-index: 1000;
             border-bottom: 5px solid #ff00ff;
-            box-shadow: 0 0 50px #ff00ff;
+            box-shadow: 0 0 50px #ff00ff, 0 0 100px #00ffff;
+            transform: skewY(-1deg);
+        }
+
+        @keyframes headerShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .progress-bar {
@@ -47,21 +72,75 @@
             background: #111;
             border: 2px solid #00ff41;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             margin-bottom: 10px;
+            box-shadow: 
+                inset 0 0 20px #ff00ff,
+                0 0 30px #00ff41,
+                0 5px 15px rgba(0, 255, 65, 0.5);
+            animation: progressPulse 2s infinite;
+        }
+
+        @keyframes progressPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: inset 0 0 20px #ff00ff, 0 0 30px #00ff41;
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: inset 0 0 30px #ff0000, 0 0 50px #ffff00;
+            }
         }
 
         .progress-fill {
             height: 100%;
-            width: 99.9999999%;
-            background: linear-gradient(90deg, #00ff41, #00ff88, #00ff41);
-            background-size: 200% 100%;
-            animation: pulse 2s infinite;
+            width: 0%;
+            background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff);
+            background-size: 400% 100%;
+            position: relative;
+            animation: fillProgress 6s ease-in-out infinite, rainbowShift 3s linear infinite;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
         }
 
-        @keyframes pulse {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            70% { width: 99%; }
+            75% { width: 99%; }
+            100% { width: 0%; }
+        }
+
+        @keyframes rainbowShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .progress-indicator {
+            position: absolute;
+            right: -2px;
+            top: -5px;
+            width: 4px;
+            height: 40px;
+            background: #ffff00;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ff0000;
+            animation: indicatorGlow 1s infinite, indicatorWobble 2s ease-in-out infinite;
+        }
+
+        @keyframes indicatorGlow {
+            0%, 100% { 
+                box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+                background: #ffff00;
+            }
+            50% { 
+                box-shadow: 0 0 30px #ffff00, 0 0 50px #ffff00, 0 0 70px #ff0000;
+                background: #ff0000;
+            }
+        }
+
+        @keyframes indicatorWobble {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            25% { transform: translateY(-3px) scaleY(1.1); }
+            75% { transform: translateY(3px) scaleY(0.9); }
         }
 
         .progress-text {
@@ -69,15 +148,36 @@
             font-size: 24px;
             text-align: center;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px #00ff41;
+            text-shadow: 
+                0 0 10px #00ff41,
+                0 0 20px #ff00ff,
+                3px 3px 0 #000,
+                -3px -3px 0 #ffff00;
+            animation: textWobble 3s infinite;
+        }
+
+        @keyframes textWobble {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(1deg); }
+            50% { transform: scale(0.95) rotate(-1deg); }
+            75% { transform: scale(1.02) rotate(0.5deg); }
         }
 
         .subtext {
             font-size: 12px;
             text-align: center;
-            opacity: 0.7;
+            opacity: 0.9;
             font-style: italic;
             margin-top: 5px;
+            animation: colorFlash 2s infinite;
+        }
+
+        @keyframes colorFlash {
+            0% { color: #00ff41; }
+            25% { color: #ff00ff; }
+            50% { color: #ffff00; }
+            75% { color: #00ffff; }
+            100% { color: #00ff41; }
         }
 
         .hint {
@@ -90,13 +190,25 @@
             font-size: 14px;
             text-align: center;
             z-index: 999;
-            text-shadow: 0 0 10px #ff0000;
-            animation: blink 1.5s infinite;
+            text-shadow: 
+                0 0 10px #ff0000,
+                0 0 20px #ffff00,
+                2px 2px 0 #000;
+            animation: blink 1s infinite, hintBounce 2s ease-in-out infinite;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border: 3px dashed #ff0000;
+            border-radius: 10px;
         }
 
         @keyframes blink {
             0%, 50%, 100% { opacity: 1; }
             25%, 75% { opacity: 0.3; }
+        }
+
+        @keyframes hintBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
         }
 
         .secret-win {
@@ -105,7 +217,8 @@
             right: 20px;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #ff0000, #ff6666);
+            background: linear-gradient(135deg, #ff0000, #ff6666, #ff0000);
+            background-size: 200% 200%;
             cursor: pointer;
             z-index: 10000;
             transition: all 0.3s;
@@ -115,26 +228,43 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            animation: spin 3s linear infinite;
+            animation: spin 3s linear infinite, victoryPulse 2s ease-in-out infinite;
             opacity: 0;
             pointer-events: none;
             transform: scale(0.5);
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); background-position: 0% 50%; }
+            100% { transform: rotate(360deg); background-position: 100% 50%; }
+        }
+
+        @keyframes victoryPulse {
+            0%, 100% { box-shadow: 0 0 20px #ff0000; }
+            50% { box-shadow: 0 0 50px #ff0000, 0 0 70px #ffff00; }
         }
 
         .secret-win.glow {
-            box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ff0000;
+            box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ff0000, 0 0 100px #ffff00;
             width: 60px;
             height: 60px;
             border: 6px solid #00ff00;
+            animation: spin 1s linear infinite, superGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes superGlow {
+            0%, 100% { 
+                box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ff0000;
+                transform: rotate(0deg) scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 60px #ff0000, 0 0 100px #ffff00, 0 0 150px #00ff00;
+                transform: rotate(180deg) scale(1.2);
+            }
         }
 
         .secret-win:hover {
-            box-shadow: 0 0 50px #ff0000;
+            box-shadow: 0 0 70px #ff0000, 0 0 100px #ffff00;
             width: 70px;
             height: 70px;
         }
@@ -142,15 +272,22 @@
         /* FAKE COUNTDOWN CLOCKS */
         .fake-timer {
             position: fixed;
-            background: red;
+            background: linear-gradient(45deg, red, darkred, red);
+            background-size: 200% 200%;
+            animation: timerBG 2s infinite, shake 0.5s infinite;
             color: white;
             padding: 15px 25px;
             font-family: 'Arial Black', sans-serif;
             font-size: 18px;
             border: 3px solid yellow;
             z-index: 500;
-            animation: shake 0.5s infinite;
-            box-shadow: 0 0 30px red;
+            box-shadow: 0 0 30px red, 0 0 50px rgba(255, 0, 0, 0.5);
+            text-shadow: 2px 2px 0 black, 0 0 10px yellow;
+        }
+
+        @keyframes timerBG {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         @keyframes shake {
@@ -172,30 +309,49 @@
             background: white;
             border: 5px solid blue;
             padding: 20px;
-            box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
+            box-shadow: 
+                10px 10px 0 rgba(0,0,0,0.5),
+                0 0 30px rgba(0, 0, 255, 0.7);
             z-index: 600;
             font-family: Arial, sans-serif;
             color: black;
+            animation: popupFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes popupFloat {
+            0%, 100% { transform: rotate(-5deg) translateY(0); }
+            50% { transform: rotate(-5deg) translateY(-10px); }
         }
 
         .fake-popup.popup1 {
             top: 300px;
             left: 100px;
-            transform: rotate(-5deg);
         }
 
         .fake-popup.popup2 {
             top: 400px;
             right: 100px;
-            transform: rotate(5deg);
+            animation: popupFloat2 3s ease-in-out infinite;
+        }
+
+        @keyframes popupFloat2 {
+            0%, 100% { transform: rotate(5deg) translateY(0); }
+            50% { transform: rotate(5deg) translateY(-15px); }
         }
 
         .popup-title {
-            background: blue;
+            background: linear-gradient(90deg, blue, darkblue, blue);
+            background-size: 200% 100%;
+            animation: popupTitleShift 2s linear infinite;
             color: white;
             padding: 5px;
             margin: -20px -20px 10px -20px;
             font-weight: bold;
+        }
+
+        @keyframes popupTitleShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .popup-button {
@@ -204,6 +360,13 @@
             padding: 5px 15px;
             margin: 5px;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .popup-button:hover {
+            background: #ff00ff;
+            color: white;
+            transform: scale(1.1) rotate(5deg);
         }
 
         /* FAKE LOADING BARS */
@@ -214,6 +377,7 @@
             background: #333;
             border: 2px solid #fff;
             z-index: 550;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
         }
 
         .fake-loading.load1 { top: 250px; left: 150px; }
@@ -221,8 +385,9 @@
 
         .loading-fill {
             height: 100%;
-            background: lime;
-            animation: fakeLoad 3s infinite;
+            background: linear-gradient(90deg, lime, green, lime);
+            background-size: 200% 100%;
+            animation: fakeLoad 3s infinite, loadingShift 2s linear infinite;
         }
 
         @keyframes fakeLoad {
@@ -232,14 +397,22 @@
             100% { width: 0%; }
         }
 
+        @keyframes loadingShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
         /* SPINNING TEXT */
         .spinning-text {
             position: fixed;
             font-size: 40px;
             font-weight: bold;
             color: magenta;
-            text-shadow: 3px 3px yellow;
-            animation: spinText 2s linear infinite;
+            text-shadow: 
+                3px 3px yellow,
+                -3px -3px cyan,
+                0 0 20px magenta;
+            animation: spinText 2s linear infinite, textPulse 1s ease-in-out infinite;
             z-index: 400;
         }
 
@@ -249,6 +422,11 @@
         @keyframes spinText {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        @keyframes textPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .maze-container {
@@ -261,21 +439,40 @@
         .nav-button {
             position: absolute;
             padding: 20px 40px;
-            background: #ff00ff;
+            background: linear-gradient(135deg, #ff00ff, #ff66ff, #ff00ff);
+            background-size: 200% 200%;
             color: yellow;
             border: 5px dashed #00ffff;
             font-family: 'Comic Sans MS', cursive;
             font-size: 20px;
             cursor: pointer;
             transition: all 0.05s ease;
-            box-shadow: 0 0 20px #ff00ff;
+            box-shadow: 
+                0 0 20px #ff00ff,
+                inset 0 0 10px rgba(255, 255, 0, 0.3);
             font-weight: bold;
+            animation: buttonPulse 2s ease-in-out infinite;
+            text-shadow: 
+                2px 2px 0 #000,
+                0 0 10px #ffff00;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 20px #ff00ff;
+            }
+            50% { 
+                background-position: 100% 50%;
+                box-shadow: 0 0 40px #ff00ff, 0 0 60px #00ffff;
+            }
         }
 
         .nav-button:hover {
-            background: #00ffff;
+            background: linear-gradient(135deg, #00ffff, #66ffff, #00ffff);
             color: #ff00ff;
             transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 50px #00ffff;
         }
 
         .content {
@@ -287,17 +484,30 @@
             font-family: 'Comic Sans MS', cursive;
             font-size: 48px;
             margin-bottom: 30px;
-            text-shadow: 5px 5px #ff00ff;
-            animation: glitch 3s infinite;
+            text-shadow: 
+                5px 5px #ff00ff,
+                -5px -5px #00ffff,
+                0 0 30px #ffff00;
+            animation: glitch 3s infinite, h1Rainbow 5s linear infinite;
             color: #ffff00;
         }
 
         @keyframes glitch {
             0%, 90%, 100% { transform: translate(0); }
-            92% { transform: translate(-2px, 2px); }
-            94% { transform: translate(2px, -2px); }
-            96% { transform: translate(-2px, -2px); }
-            98% { transform: translate(2px, 2px); }
+            92% { transform: translate(-2px, 2px) skew(2deg); }
+            94% { transform: translate(2px, -2px) skew(-2deg); }
+            96% { transform: translate(-2px, -2px) skew(1deg); }
+            98% { transform: translate(2px, 2px) skew(-1deg); }
+        }
+
+        @keyframes h1Rainbow {
+            0% { color: #ff0000; }
+            16% { color: #ffff00; }
+            33% { color: #00ff00; }
+            50% { color: #00ffff; }
+            66% { color: #0000ff; }
+            83% { color: #ff00ff; }
+            100% { color: #ff0000; }
         }
 
         .content p {
@@ -306,11 +516,22 @@
             max-width: 800px;
             margin: 0 auto 30px auto;
             color: #ffffff;
-            text-shadow: 2px 2px #000;
+            text-shadow: 
+                2px 2px #000,
+                0 0 5px #ff00ff;
+            animation: pWobble 5s ease-in-out infinite;
+        }
+
+        @keyframes pWobble {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
         }
 
         .warning {
-            background: rgba(255, 255, 0, 0.8);
+            background: linear-gradient(45deg, rgba(255, 255, 0, 0.9), rgba(255, 0, 0, 0.9), rgba(255, 255, 0, 0.9));
+            background-size: 200% 200%;
+            animation: warningBG 3s linear infinite, warning-pulse 1s infinite;
             border: 5px solid #ff0000;
             padding: 20px;
             margin: 30px auto;
@@ -318,7 +539,13 @@
             color: #ff0000;
             font-family: 'Comic Sans MS', cursive;
             font-weight: bold;
-            animation: warning-pulse 1s infinite;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+            text-shadow: 1px 1px 0 #000, 0 0 10px #ffff00;
+        }
+
+        @keyframes warningBG {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         @keyframes warning-pulse {
@@ -329,14 +556,22 @@
         /* FAKE DIALOGS */
         .error-dialog {
             position: fixed;
-            background: red;
+            background: linear-gradient(135deg, red, darkred, red);
+            background-size: 200% 200%;
+            animation: errorBG 2s linear infinite, errorShake 0.3s infinite;
             color: white;
             padding: 30px;
             border: 10px solid black;
             font-size: 24px;
             font-weight: bold;
             z-index: 700;
-            animation: errorShake 0.3s infinite;
+            box-shadow: 0 0 50px red;
+            text-shadow: 3px 3px 0 black, 0 0 20px yellow;
+        }
+
+        @keyframes errorBG {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .error-dialog.error1 { top: 50%; left: 20%; }
@@ -347,7 +582,7 @@
             25% { transform: translateX(-10px); }
             75% { transform: translateX(10px); }
         }
-        /* SCREEN SHAKE ANIMATIO*/
+
         @keyframes screenShake {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             10% { transform: translate(-10px, 5px) rotate(-1deg); }
@@ -364,74 +599,227 @@
         body.shake {
             animation: screenShake 0.5s ease-in-out;
         }
-        /* Glitching elements */
+
         .glitch-element {
             animation: glitchEffect 3s infinite;
         }
 
         @keyframes glitchEffect {
             0%, 90%, 100% {
-            transform: translate(0, 0);
+                transform: translate(0, 0);
+                opacity: 1;
+                filter: hue-rotate(0deg);
+            }
+            91% {
+                transform: translate(-5px, 2px);
+                opacity: 0.8;
+                filter: hue-rotate(90deg);
+            }
+            92% {
+                transform: translate(5px, -2px);
+                opacity: 0.6;
+                filter: hue-rotate(180deg);
+            }
+            93% {
+                transform: translate(-3px, -3px);
+                opacity: 0.9;
+                filter: hue-rotate(270deg);
+            }
+            94% {
+                transform: translate(3px, 3px);
+                opacity: 0.7;
+                filter: hue-rotate(45deg);
+            }
+            95% {
+                transform: translate(0, 0);
+                opacity: 1;
+                filter: hue-rotate(0deg);
+            }
+        }
+
+        .glitch-intense {
+            animation: glitchIntense 2s infinite;
+        }
+
+        @keyframes glitchIntense {
+            0%, 85%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+                filter: hue-rotate(0deg) saturate(1);
+            }
+            86% {
+                transform: translate(-10px, 5px) scale(1.05);
+                opacity: 0.5;
+                filter: hue-rotate(180deg) saturate(3);
+            }
+            87% {
+                transform: translate(10px, -5px) scale(0.95);
+                opacity: 0.3;
+                filter: hue-rotate(90deg) saturate(5);
+            }
+            88% {
+                transform: translate(-8px, -8px) scale(1.1);
+                opacity: 0.6;
+                filter: hue-rotate(270deg) saturate(2);
+            }
+            90% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+                filter: hue-rotate(0deg) saturate(1);
+            }
+        }
+
+        /* SPARKLE EFFECTS */
+    .sparkle {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: radial-gradient(circle, #ffff00, #ff00ff, transparent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        animation: sparkleFloat 1s ease-out forwards;
+}   
+
+    @keyframes sparkleFloat {
+        0% {
+            transform: translate(0, 0) scale(1);
             opacity: 1;
-            filter: hue-rotate(0deg);
         }
-        91% {
-        transform: translate(-5px, 2px);
-        opacity: 0.8;
-        filter: hue-rotate(90deg);
-        }
-        92% {
-        transform: translate(5px, -2px);
-        opacity: 0.6;
-        filter: hue-rotate(180deg);
-        }
-        93% {
-        transform: translate(-3px, -3px);
-        opacity: 0.9;
-        filter: hue-rotate(270deg);
-        }
-        94% {
-        transform: translate(3px, 3px);
-        opacity: 0.7;
-        filter: hue-rotate(45deg);
-        }
-        95% {
-        transform: translate(0, 0);
-        opacity: 1;
-        filter: hue-rotate(0deg);
+        100% {
+            transform: translate(var(--tx), var(--ty)) scale(0);
+            opacity: 0;
         }
 }
 
-    .glitch-intense {
-    animation: glitchIntense 2s infinite;
-    }
+    .proximity-glow {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255, 255, 0, 0.3), rgba(255, 0, 255, 0.2), transparent);
+        pointer-events: none;
+        z-index: 9998;
+        opacity: 0;
+        transition: opacity 0.3s;
+        animation: pulseGlow 2s ease-in-out infinite;
+}
 
-    @keyframes glitchIntense {
-    0%, 85%, 100% {
-        transform: translate(0, 0) scale(1);
+    @keyframes pulseGlow {
+        0%, 100% {
+            transform: scale(1);
+            filter: brightness(1);
+    }
+         50% {
+            transform: scale(1.1);
+            filter: brightness(1.5);
+    }
+}
+
+.getting-warmer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    font-family: Impact, sans-serif;
+    color: #ffff00;
+    text-shadow: 
+        0 0 20px #ff00ff,
+        0 0 40px #00ffff,
+        0 0 60px #ff0000,
+        5px 5px 0 #000;
+    z-index: 10001;
+    pointer-events: none;
+    opacity: 0;
+    animation: warmerPulse 1s ease-in-out infinite;
+}
+
+@keyframes warmerPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
         opacity: 1;
-        filter: hue-rotate(0deg) saturate(1);
     }
-    86% {
-        transform: translate(-10px, 5px) scale(1.05);
-        opacity: 0.5;
-        filter: hue-rotate(180deg) saturate(3);
-    }
-    87% {
-        transform: translate(10px, -5px) scale(0.95);
-        opacity: 0.3;
-        filter: hue-rotate(90deg) saturate(5);
-    }
-    88% {
-        transform: translate(-8px, -8px) scale(1.1);
-        opacity: 0.6;
-        filter: hue-rotate(270deg) saturate(2);
-    }
-    90% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-        filter: hue-rotate(0deg) saturate(1);
-    }
+}
+
+.hint-bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #00ff00;
+    font-family: Impact, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    z-index: 999;
+    text-shadow: 
+        0 0 10px #00ff00,
+        0 0 20px #ffff00,
+        2px 2px 0 #000;
+    animation: blink 1.5s infinite, bounce 2s ease-in-out infinite;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border: 3px dashed #00ff00;
+    border-radius: 10px;
+    max-width: 300px;
+}
+
+.hint-top-left {
+    position: fixed;
+    top: 120px;
+    left: 20px;
+    color: #ff00ff;
+    font-family: Impact, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    z-index: 999;
+    text-shadow: 
+        0 0 10px #ff00ff,
+        0 0 20px #00ffff,
+        2px 2px 0 #000;
+    animation: blink 1.5s infinite, wiggle 2s ease-in-out infinite;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border: 3px solid #ff00ff;
+    border-radius: 10px;
+    box-shadow: 0 0 30px #ff00ff;
+    max-width: 300px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
+}
+.hint-bottom-left {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: #00ffff;
+    font-family: Impact, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    z-index: 999;
+    text-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #ff00ff,
+        2px 2px 0 #000;
+    animation: blink 1.5s infinite, wiggle 2s ease-in-out infinite;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border: 3px solid #00ffff;
+    border-radius: 10px;
+    box-shadow: 0 0 30px #00ffff;
+    max-width: 300px;
 }
     </style>
 </head>
@@ -441,11 +829,14 @@
             <div class="progress-fill"></div>
         </div>
         <div class="progress-text">ESTIMATED SUCCESS PROGRESS: 99.9999999%</div>
-        <div class="subtext">Your mouse seems to be struggling. Have you tried turning your hand upside down? BTW, HINT IS IN THE BOTTOM</div>
+        <div class="subtext">Your mouse seems to be struggling. Have you tried turning your hand upside down? BTW, HINT IS IN THE BOTTOM OF THE PAGE</div>
     </div>
 
     <!-- VICTORY BUTTON - BIG SPINNING SQUARE -->
     <a href="gameover.html" class="secret-win" id="victoryBtn">🎯</a>
+    <!-- PROXIMITY EFFECTS -->
+<div class="proximity-glow" id="proximityGlow"></div>
+<div class="getting-warmer" id="warmerText" style="opacity: 0;">🔥 GETTING WARMER! 🔥</div>
 
     <!-- FAKE COUNTDOWN TIMERS -->
    <div class="fake-timer timer1 glitch-element">⏰ 9:47 LEFT!</div>
@@ -487,10 +878,19 @@
    
 
     <div class="hint">
-        HINT: THE SUCCESS BUTTON LIES IN THE LAST STEP OF YOUR SUCCESS(what success?! Look IN THE SKY). &lt; FIND IT &gt;<br>
+        HINT: THE SUCCESS BUTTON LOCATION IS REVEALED IN THE BOTTOM RIGHT CORNER &lt; FIND IT &gt;<br>
         THIS LEVEL IS EASY &lt; USER IS JUST.... &gt;
+
+    </div>
+    <!-- BOTTOM RIGHT HINT -->
+    <div class="hint-bottom-right">
+        😏 Nice try! The REAL hint is in the BOTTOM LEFT CORNER! 😏
     </div>
 
+    <!-- TOP LEFT HINT -->
+    <div class="hint-bottom-left">
+        🎯 ALMOST THERE! Now check the TOP RIGHT CORNER! 🎯
+    </div>
     <div class="maze-container">
         <button class="nav-button" id="btn1" data-original="HOME">HOME</button>
         <button class="nav-button" id="btn2" data-original="ABOUT">ABOUT</button>
@@ -719,29 +1119,106 @@ function playAnnoyingSound() {
         }, 1000);
 
         //making the success button appear
-        const victoryBtn = document.getElementById('victoryBtn');
+      //  const victoryBtn = document.getElementById('victoryBtn');
 
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
+const victoryBtn = document.getElementById('victoryBtn');
+const proximityGlow = document.getElementById('proximityGlow');
+const warmerText = document.getElementById('warmerText');
+let sparkleInterval = null;
 
-            const secretZone =
-            x > window.innerWidth * 0.8 &&   // right 20%
-            y < window.innerHeight * 0.25;   // top 25%
+document.addEventListener('mousemove', (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
 
+    // Calculate distance to secret zone (top-right corner)
+    const targetX = window.innerWidth * 0.9;
+    const targetY = window.innerHeight * 0.15;
+    const distance = Math.sqrt(
+        Math.pow(x - targetX, 2) + 
+        Math.pow(y - targetY, 2)
+    );
+
+    const secretZone =
+        x > window.innerWidth * 0.8 &&
+        y < window.innerHeight * 0.25;
+
+    // CLOSE PROXIMITY (within 300px) - Show hints
+    if (distance < 300) {
+        const intensity = 1 - (distance / 300); // 0 to 1
+        proximityGlow.style.opacity = intensity * 0.7;
+        
+        // Show "GETTING WARMER" text when very close
+        if (distance < 150) {
+            warmerText.style.opacity = intensity;
+            
+            // Create sparkles
+            if (!sparkleInterval) {
+                sparkleInterval = setInterval(() => {
+                    createSparkle(x, y);
+                }, 100);
+            }
+        } else {
+            warmerText.style.opacity = 0;
+            if (sparkleInterval) {
+                clearInterval(sparkleInterval);
+                sparkleInterval = null;
+            }
+        }
+    } else {
+        proximityGlow.style.opacity = 0;
+        warmerText.style.opacity = 0;
+        if (sparkleInterval) {
+            clearInterval(sparkleInterval);
+            sparkleInterval = null;
+        }
+    }
+
+    // VICTORY ZONE
     if (secretZone) {
         victoryBtn.style.opacity = '1';
         victoryBtn.style.pointerEvents = 'auto';
         victoryBtn.style.transform = 'scale(1)';
         victoryBtn.classList.add('glow');
+        
+        // MAXIMUM SPARKLES!
+        if (!sparkleInterval) {
+            sparkleInterval = setInterval(() => {
+                createSparkle(x, y);
+            }, 50);
+        }
     } else {
         victoryBtn.style.opacity = '0';
         victoryBtn.style.pointerEvents = 'none';
         victoryBtn.style.transform = 'scale(0.5)';
         victoryBtn.classList.remove('glow');
     }
-
 });
+
+// SPARKLE CREATION FUNCTION
+function createSparkle(x, y) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    
+    // Random offset from cursor
+    const offsetX = (Math.random() - 0.5) * 100;
+    const offsetY = (Math.random() - 0.5) * 100;
+    
+    sparkle.style.left = x + offsetX + 'px';
+    sparkle.style.top = y + offsetY + 'px';
+    
+    // Random direction for floating
+    const tx = (Math.random() - 0.5) * 200;
+    const ty = (Math.random() - 0.5) * 200;
+    sparkle.style.setProperty('--tx', tx + 'px');
+    sparkle.style.setProperty('--ty', ty + 'px');
+    
+    document.body.appendChild(sparkle);
+    
+    // Remove after animation
+    setTimeout(() => {
+        sparkle.remove();
+    }, 1000);
+}
 //shake screen, ik this function sucks but anyways
     function shakeScreen() {
         document.body.classList.add('shake');
