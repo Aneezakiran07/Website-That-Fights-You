@@ -13,9 +13,8 @@
                 linear-gradient(-45deg, #000 25%, transparent 25%), 
                 linear-gradient(45deg, transparent 75%, #000 75%), 
                 linear-gradient(-45deg, transparent 75%, #000 75%);
-            background-size: 60px 60px;
-            background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
-            animation: pulse-size 1s ease-in-out infinite, bg-shift 3s linear infinite, color-cycle 4s linear infinite;
+            background-size: 80px 80px;
+            background-position: 0 0, 0 40px, 40px -40px, -40px 0px;
 
             color: #00ff00;
             font-family: 'Comic Sans MS', cursive;
@@ -29,56 +28,19 @@
             cursor: crosshair;
         }
 
-        @keyframes pulse-size {
-            0%, 100% { 
-                background-size: 60px 60px; 
-            }
-            25% { 
-                background-size: 90px 90px; 
-            }
-            50% { 
-                background-size: 40px 40px; 
-            }
-            75% { 
-                background-size: 110px 110px; 
-            }
-        }
-
-        @keyframes bg-shift {
-            0% { 
-                background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
-            }
-            100% { 
-                background-position: 100px 100px, 100px 130px, 130px 70px, 70px 100px;
-            }
-        }
-
-        @keyframes color-cycle {
-            0% { background-color: #ff00ff; }
-            25% { background-color: #00ffff; }
-            50% { background-color: #ff00ff; }
-            75% { background-color: #ffff00; }
-            100% { background-color: #ff00ff; }
-        }
-
         .overlay-text {
+        /* Visual Styles */
             background-color: rgba(0, 0, 0, 0.9);
             padding: 20px;
             border: 8px dashed #00ff00;
             text-align: center;
             box-shadow: 10px 10px 0px #ff00ff;
             z-index: 10;
-            max-width: 90vw;
-            box-sizing: border-box; 
-            word-wrap: break-word;
-            animation: text-shake 0.3s infinite;
-        }
 
-        @keyframes text-shake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-1deg); }
-            50% { transform: rotate(1deg); }
-            75% { transform: rotate(-1deg); }
+            /* Fixes and Layout */
+            max-width: 90vw;       /* preventing it from being wider than screen*/
+            box-sizing: border-box; 
+            word-wrap: break-word;  /* Forced text to wrap if too long */
         }
 
         #runaway-btn {
@@ -92,15 +54,14 @@
             cursor: pointer;
             z-index: 999;
             top: 60%;
+            /* Keep jittering always active */
             animation: jitter 0.1s infinite;
         }
 
         @keyframes jitter {
-            0% { transform: translate(0,0) rotate(0deg); }
-            25% { transform: translate(3px, -3px) rotate(2deg); }
-            50% { transform: translate(-3px, 3px) rotate(-2deg); }
-            75% { transform: translate(3px, 3px) rotate(1deg); }
-            100% { transform: translate(0,0) rotate(0deg); }
+            0% { transform: translate(0,0); }
+            50% { transform: translate(3px, -3px); }
+            100% { transform: translate(0,0); }
         }
     </style>
 </head>
@@ -110,148 +71,166 @@
         <marquee scrollamount="15"><h1>ERROR: USER PATIENCE LOW</h1></marquee>
         <h2>LEVEL 1: CLICK TO ENTER THE VOID</h2>
         <p>Just Quit man!!! It ain't your cup of tea</p>
+    <!--    <p id="status-msg" style="color: rgb(0, 34, 255); font-size: 12px;">STATUS: DETECTING WEAKNESS...</p> 
+        this was added for debugging-->
     </div>
 
     <button id="runaway-btn">START</button>
 
     <script>
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-        function playSound(type) {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            switch(type) {
-                case 'move':
-                    oscillator.frequency.value = 800;
-                    oscillator.type = 'square';
-                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.1);
-                    break;
-                    
-                case 'clickable':
-                    oscillator.frequency.value = 1200;
-                    oscillator.type = 'sine';
-                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.3);
-                    break;
-                    
-                case 'success':
-                    [600, 800, 1000].forEach((freq, i) => {
-                        const osc = audioContext.createOscillator();
-                        const gain = audioContext.createGain();
-                        osc.connect(gain);
-                        gain.connect(audioContext.destination);
-                        osc.frequency.value = freq;
-                        osc.type = 'sine';
-                        gain.gain.setValueAtTime(0.3, audioContext.currentTime + i * 0.1);
-                        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.1 + 0.2);
-                        osc.start(audioContext.currentTime + i * 0.1);
-                        osc.stop(audioContext.currentTime + i * 0.1 + 0.2);
-                    });
-                    break;
-                    
-                case 'fail':
-                    oscillator.frequency.value = 200;
-                    oscillator.type = 'sawtooth';
-                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.5);
-                    break;
-            }
-        }
+        //sound context
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
+    function playSound(type) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Different sounds for different events
+    switch(type) {
+        case 'move': // When button runs away
+            oscillator.frequency.value = 800;
+            oscillator.type = 'square';
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+            break;
+            
+        case 'clickable': // When button becomes clickable
+            oscillator.frequency.value = 1200;
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+            break;
+            
+        case 'success': // When successfully clicked
+            // Victory sound - three ascending notes
+            [600, 800, 1000].forEach((freq, i) => {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.frequency.value = freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.3, audioContext.currentTime + i * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.1 + 0.2);
+                osc.start(audioContext.currentTime + i * 0.1);
+                osc.stop(audioContext.currentTime + i * 0.1 + 0.2);
+            });
+            break;
+            
+        case 'fail': // When clicked too early or timed out
+            oscillator.frequency.value = 200;
+            oscillator.type = 'sawtooth';
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+            break;
+    }
+}
         const btn = document.getElementById('runaway-btn');
+        const rageText = document.getElementById('rage-count');
+        const statusMsg = document.getElementById('status-msg');
+        
         let jumps = 0;
         let isClickable = false;
         let resetTimer;
 
+        // Increase rage counter
+        setInterval(() => {
+            let current = parseInt(rageText.innerText);
+            rageText.innerText = current + Math.floor(Math.random() * 3);
+        }, 2000);
+
         function moveButton() {
-            const x = Math.random() * (window.innerWidth - btn.clientWidth);
-            const y = Math.random() * (window.innerHeight - btn.clientHeight);
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-            playSound('move');
-        }
+             const x = Math.random() * (window.innerWidth - btn.clientWidth);
+             const y = Math.random() * (window.innerHeight - btn.clientHeight);
+             btn.style.left = x + 'px';
+             btn.style.top = y + 'px';
+             playSound('move'); // ← ADD THIS LINE
+}
+btn.addEventListener('mouseover', () => {
+        if (isClickable) return; // Don't move during clickable window
+    
+        if (jumps < 10) {
+        moveButton();
+        jumps++;
+        
+        // Expanded list of insults
+        const insults = [
+            "NOPE!", 
+            "TOO SLOW!", 
+            "TRY HARDER", 
+            "MISS ME?", 
+            "LOSER!", 
+            "MY GRANDMA IS FASTER", 
+            "SKILL ISSUE", 
+            "STOP EMBARRASSING YOURSELF", 
+            "QUIT ALREADY", 
+            "LMAO", 
+            "NOT EVEN CLOSE"
+        ];
+          
+        // Pick a random insult from the list
+        btn.innerText = insults[Math.floor(Math.random() * insults.length)];
+     } else if (jumps === 10 && !isClickable) {
+        startClickableWindow();
+    }
+});
 
-        btn.addEventListener('mouseover', () => {
-            if (isClickable) return;
-            
-            if (jumps < 10) {
-                moveButton();
-                jumps++;
-                
-                const insults = [
-                    "NOPE!", 
-                    "TOO SLOW!", 
-                    "TRY HARDER", 
-                    "MISS ME?", 
-                    "LOSER!", 
-                    "MY GRANDMA IS FASTER", 
-                    "SKILL ISSUE", 
-                    "STOP EMBARRASSING YOURSELF", 
-                    "QUIT ALREADY", 
-                    "LMAO", 
-                    "NOT EVEN CLOSE"
-                ];
-                
-                btn.innerText = insults[Math.floor(Math.random() * insults.length)];
-            } else if (jumps === 10 && !isClickable) {
-                startClickableWindow();
-            }
-        });
+    function startClickableWindow() {
+    isClickable = true;
+    btn.innerText = "CLICK!";
+    playSound('clickable'); // ← ADD THIS LINE
+    
+    // Make the button TINY and harder to hit
+    btn.style.padding = "4px 8px"; 
+    btn.style.fontSize = "10px";
+    btn.style.backgroundColor = "#fff";
+    btn.style.color = "#000";
+    
+    // The 1-second (1000ms) window
+    resetTimer = setTimeout(() => {
+        resetToRunaway();
+    }, 1000); 
+}
 
-        function startClickableWindow() {
-            isClickable = true;
-            btn.innerText = "CLICK!";
-            playSound('clickable');
-            
-            btn.style.padding = "4px 8px"; 
-            btn.style.fontSize = "10px";
-            btn.style.backgroundColor = "#fff";
-            btn.style.color = "#000";
-            
-            resetTimer = setTimeout(() => {
-                resetToRunaway();
-            }, 1000); 
-        }
+    function resetToRunaway() {
+    isClickable = false;
+    jumps = 0;
+    playSound('fail'); // ← ADD THIS LINE
+    
+    // Restore original size and look
+    btn.innerText = "TOO SLOW!";
+    btn.style.padding = "12px 24px";
+    btn.style.fontSize = "16px";
+    btn.style.backgroundColor = "#ffff00";
+    btn.style.color = "#ff0000";
+    
+    moveButton();
+}
 
-        function resetToRunaway() {
-            isClickable = false;
-            jumps = 0;
-            playSound('fail');
-            
-            btn.innerText = "TOO SLOW!";
-            btn.style.padding = "12px 24px";
-            btn.style.fontSize = "16px";
-            btn.style.backgroundColor = "#ffff00";
-            btn.style.color = "#ff0000";
-            
-            moveButton();
-        }
+    btn.addEventListener('click', () => {
+    if (isClickable) {
+        clearTimeout(resetTimer);
+        playSound('success'); // ← ADD THIS LINE
+        
+        alert("Level 1 Clear! You are now 99.9999999% done with the game. Just one more tiny thing to do... maybe.");
+        window.location.href = "level2.html"; 
 
-        btn.addEventListener('click', () => {
-            if (isClickable) {
-                clearTimeout(resetTimer);
-                playSound('success');
-                
-                alert("Level 1 Clear! You are now 99.9999999% done with the game. Just one more tiny thing to do... maybe.");
-                window.location.href = "level2.html"; 
-
-            } else {
-                playSound('fail');
-                alert("IT AIN'T YOUR CUP OF TEA! Stop clicking like a maniac and wait for the window.");
-                resetToRunaway(); 
-            }
-        });
+    } else {
+        playSound('fail'); // ← ADD THIS LINE
+        alert("IT AIN'T YOUR CUP OF TEA! Stop clicking like a maniac and wait for the window.");
+        resetToRunaway(); 
+    }
+});
     </script>
 </body>
 </html>
