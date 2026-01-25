@@ -29,18 +29,15 @@
         }
 
         .overlay-text {
-        /* Visual Styles */
             background-color: rgba(0, 0, 0, 0.9);
             padding: 20px;
             border: 8px dashed #00ff00;
             text-align: center;
             box-shadow: 10px 10px 0px #ff00ff;
             z-index: 10;
-
-            /* Fixes and Layout */
-            max-width: 90vw;       /* preventing it from being wider than screen*/
+            max-width: 90vw;
             box-sizing: border-box; 
-            word-wrap: break-word;  /* Forced text to wrap if too long */
+            word-wrap: break-word;
         }
 
         #runaway-btn {
@@ -54,7 +51,6 @@
             cursor: pointer;
             z-index: 999;
             top: 60%;
-            /* Keep jittering always active */
             animation: jitter 0.1s infinite;
         }
 
@@ -63,174 +59,390 @@
             50% { transform: translate(3px, -3px); }
             100% { transform: translate(0,0); }
         }
+
+        /* CHEATER DETECTED OVERLAY */
+        .cheater-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0000, #000000, #ff0000, #000000);
+            background-size: 400% 400%;
+            animation: cheater-bg 2s ease infinite;
+            z-index: 999999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cheater-overlay.active {
+            display: flex;
+        }
+
+        @keyframes cheater-bg {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .cheater-content {
+            background: #000;
+            border: 10px solid #ff0000;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
+            animation: cheater-shake 0.3s infinite;
+            max-width: 80%;
+        }
+
+        @keyframes cheater-shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-5px, 5px) rotate(-2deg); }
+            50% { transform: translate(5px, -5px) rotate(2deg); }
+            75% { transform: translate(-5px, -5px) rotate(-1deg); }
+        }
+
+        .cheater-title {
+            font-size: 60px;
+            color: #ff0000;
+            font-family: Impact, sans-serif;
+            text-shadow: 5px 5px #000, -5px -5px #ffff00;
+            margin-bottom: 20px;
+            animation: cheater-glitch 0.5s infinite;
+        }
+
+        @keyframes cheater-glitch {
+            0%, 100% { 
+                text-shadow: 5px 5px #000, -5px -5px #ffff00;
+                transform: translate(0, 0);
+            }
+            25% { 
+                text-shadow: -5px 5px #00ff00, 5px -5px #ff00ff;
+                transform: translate(-3px, 3px);
+            }
+            50% { 
+                text-shadow: 5px -5px #ffff00, -5px 5px #00ffff;
+                transform: translate(3px, -3px);
+            }
+            75% { 
+                text-shadow: -5px -5px #ff0000, 5px 5px #0000ff;
+                transform: translate(-3px, -3px);
+            }
+        }
+
+        .cheater-message {
+            font-size: 24px;
+            color: #ffff00;
+            margin-bottom: 30px;
+            font-family: 'Comic Sans MS', cursive;
+            animation: cheater-blink 1s infinite;
+        }
+
+        @keyframes cheater-blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        .cheater-warning {
+            font-size: 18px;
+            color: #00ff00;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .skull-emoji {
+            font-size: 100px;
+            animation: skull-spin 2s linear infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes skull-spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
     </style>
 </head>
 <body>
+
+    <!-- CHEATER DETECTED OVERLAY -->
+    <div class="cheater-overlay" id="cheaterOverlay">
+        <div class="cheater-content">
+            <div class="cheater-title">🚨 CHEATER DETECTED! 🚨</div>
+            <div class="skull-emoji">💀</div>
+            <div class="cheater-message">
+                TRYING TO INSPECT THE ELEMENTS?!<br>
+                NICE TRY, BUDDY! 😈<br>
+                <br>
+                YOU THOUGHT YOU COULD CHEAT YOUR WAY OUT?<br>
+                PATHETIC!
+            </div>
+            <div class="cheater-warning">
+                ⚠️ The Developer Console is FORBIDDEN! ⚠️<br>
+                Close DevTools and refresh the page to continue...<br>
+                Or just give up already! 🤣
+            </div>
+        </div>
+    </div>
 
     <div class="overlay-text">
         <marquee scrollamount="15"><h1>ERROR: USER PATIENCE LOW</h1></marquee>
         <h2>LEVEL 1: CLICK TO ENTER THE VOID</h2>
         <p>Just Quit man!!! It ain't your cup of tea</p>
-    <!--    <p id="status-msg" style="color: rgb(0, 34, 255); font-size: 12px;">STATUS: DETECTING WEAKNESS...</p> 
-        this was added for debugging-->
     </div>
 
     <button id="runaway-btn">START</button>
 
     <script>
 
-        //sound context
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const cheaterOverlay = document.getElementById('cheaterOverlay');
+        let devToolsOpen = false;
 
-    function playSound(type) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Different sounds for different events
-    switch(type) {
-        case 'move': // When button runs away
-            oscillator.frequency.value = 800;
-            oscillator.type = 'square';
-            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.1);
-            break;
+        // Method 1: Detect DevTools by checking window size difference
+        const detectDevTools = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
             
-        case 'clickable': // When button becomes clickable
-            oscillator.frequency.value = 1200;
-            oscillator.type = 'sine';
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.3);
-            break;
+            if (widthThreshold || heightThreshold) {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        };
+
+        // Method 2: Detect console.log override attempts
+        const devToolCheck = setInterval(() => {
+            const before = new Date();
+            debugger; // This pauses execution if DevTools is open
+            const after = new Date();
             
-        case 'success': // When successfully clicked
-            // Victory sound - three ascending notes
-            [600, 800, 1000].forEach((freq, i) => {
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-                osc.connect(gain);
-                gain.connect(audioContext.destination);
-                osc.frequency.value = freq;
-                osc.type = 'sine';
-                gain.gain.setValueAtTime(0.3, audioContext.currentTime + i * 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.1 + 0.2);
-                osc.start(audioContext.currentTime + i * 0.1);
-                osc.stop(audioContext.currentTime + i * 0.1 + 0.2);
-            });
-            break;
+            if (after - before > 100) {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        }, 1000);
+
+        // Method 3: Detect using console object
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        });
+
+        // Periodically log the element to trigger detection
+        setInterval(() => {
+            console.log(element);
+            console.clear();
+        }, 1000);
+
+        // Method 4: Check window dimensions
+        setInterval(detectDevTools, 500);
+
+        // Method 5: Detect right-click (context menu)
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showCheaterScreen();
+            return false;
+        });
+
+        // Method 6: Detect common DevTools keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Cmd+Option+I (Mac)
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                (e.metaKey && e.altKey && e.key === 'I')
+            ) {
+                e.preventDefault();
+                showCheaterScreen();
+                return false;
+            }
+        });
+
+        function showCheaterScreen() {
+            cheaterOverlay.classList.add('active');
+            playCheatSound();
             
-        case 'fail': // When clicked too early or timed out
-            oscillator.frequency.value = 200;
-            oscillator.type = 'sawtooth';
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.5);
-            break;
-    }
-}
+            // Disable all page interactions
+            document.body.style.pointerEvents = 'none';
+            
+            // Optional: Auto-reload after 5 seconds
+            // setTimeout(() => {
+            //     location.reload();
+            // }, 5000);
+        }
+
+        function playCheatSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Play annoying alarm sound
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    oscillator.frequency.value = i % 2 === 0 ? 800 : 400;
+                    oscillator.type = 'square';
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.3);
+                }, i * 200);
+            }
+        }
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            switch(type) {
+                case 'move':
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'square';
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                    break;
+                    
+                case 'clickable':
+                    oscillator.frequency.value = 1200;
+                    oscillator.type = 'sine';
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                    break;
+                    
+                case 'success':
+                    [600, 800, 1000].forEach((freq, i) => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        osc.frequency.value = freq;
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(0.3, audioContext.currentTime + i * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.1 + 0.2);
+                        osc.start(audioContext.currentTime + i * 0.1);
+                        osc.stop(audioContext.currentTime + i * 0.1 + 0.2);
+                    });
+                    break;
+                    
+                case 'fail':
+                    oscillator.frequency.value = 200;
+                    oscillator.type = 'sawtooth';
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                    break;
+            }
+        }
+
         const btn = document.getElementById('runaway-btn');
-        const rageText = document.getElementById('rage-count');
-        const statusMsg = document.getElementById('status-msg');
-        
         let jumps = 0;
         let isClickable = false;
         let resetTimer;
 
-        // Increase rage counter
-        setInterval(() => {
-            let current = parseInt(rageText.innerText);
-            rageText.innerText = current + Math.floor(Math.random() * 3);
-        }, 2000);
-
         function moveButton() {
-             const x = Math.random() * (window.innerWidth - btn.clientWidth);
-             const y = Math.random() * (window.innerHeight - btn.clientHeight);
-             btn.style.left = x + 'px';
-             btn.style.top = y + 'px';
-             playSound('move'); // ← ADD THIS LINE
-}
-btn.addEventListener('mouseover', () => {
-        if (isClickable) return; // Don't move during clickable window
-    
-        if (jumps < 10) {
-        moveButton();
-        jumps++;
-        
-        // Expanded list of insults
-        const insults = [
-            "NOPE!", 
-            "TOO SLOW!", 
-            "TRY HARDER", 
-            "MISS ME?", 
-            "LOSER!", 
-            "MY GRANDMA IS FASTER", 
-            "SKILL ISSUE", 
-            "STOP EMBARRASSING YOURSELF", 
-            "QUIT ALREADY", 
-            "LMAO", 
-            "NOT EVEN CLOSE"
-        ];
-          
-        // Pick a random insult from the list
-        btn.innerText = insults[Math.floor(Math.random() * insults.length)];
-     } else if (jumps === 10 && !isClickable) {
-        startClickableWindow();
-    }
-});
+            const x = Math.random() * (window.innerWidth - btn.clientWidth);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            playSound('move');
+        }
 
-    function startClickableWindow() {
-    isClickable = true;
-    btn.innerText = "CLICK!";
-    playSound('clickable'); // ← ADD THIS LINE
-    
-    // Make the button TINY and harder to hit
-    btn.style.padding = "4px 8px"; 
-    btn.style.fontSize = "10px";
-    btn.style.backgroundColor = "#fff";
-    btn.style.color = "#000";
-    
-    // The 1-second (1000ms) window
-    resetTimer = setTimeout(() => {
-        resetToRunaway();
-    }, 1000); 
-}
+        btn.addEventListener('mouseover', () => {
+            if (isClickable) return;
+            
+            if (jumps < 10) {
+                moveButton();
+                jumps++;
+                
+                const insults = [
+                    "NOPE!", 
+                    "TOO SLOW!", 
+                    "TRY HARDER", 
+                    "MISS ME?", 
+                    "LOSER!", 
+                    "MY GRANDMA IS FASTER", 
+                    "SKILL ISSUE", 
+                    "STOP EMBARRASSING YOURSELF", 
+                    "QUIT ALREADY", 
+                    "LMAO", 
+                    "NOT EVEN CLOSE"
+                ];
+                
+                btn.innerText = insults[Math.floor(Math.random() * insults.length)];
+            } else if (jumps === 10 && !isClickable) {
+                startClickableWindow();
+            }
+        });
 
-    function resetToRunaway() {
-    isClickable = false;
-    jumps = 0;
-    playSound('fail'); // ← ADD THIS LINE
-    
-    // Restore original size and look
-    btn.innerText = "TOO SLOW!";
-    btn.style.padding = "12px 24px";
-    btn.style.fontSize = "16px";
-    btn.style.backgroundColor = "#ffff00";
-    btn.style.color = "#ff0000";
-    
-    moveButton();
-}
+        function startClickableWindow() {
+            isClickable = true;
+            btn.innerText = "CLICK!";
+            playSound('clickable');
+            
+            btn.style.padding = "4px 8px"; 
+            btn.style.fontSize = "10px";
+            btn.style.backgroundColor = "#fff";
+            btn.style.color = "#000";
+            
+            resetTimer = setTimeout(() => {
+                resetToRunaway();
+            }, 1000); 
+        }
 
-    btn.addEventListener('click', () => {
-    if (isClickable) {
-        clearTimeout(resetTimer);
-        playSound('success'); // ← ADD THIS LINE
-        
-        alert("Level 1 Clear! You are now 99.9999999% done with the game. Just one more tiny thing to do... maybe.");
-        window.location.href = "level2.html"; 
+        function resetToRunaway() {
+            isClickable = false;
+            jumps = 0;
+            playSound('fail');
+            
+            btn.innerText = "TOO SLOW!";
+            btn.style.padding = "12px 24px";
+            btn.style.fontSize = "16px";
+            btn.style.backgroundColor = "#ffff00";
+            btn.style.color = "#ff0000";
+            
+            moveButton();
+        }
 
-    } else {
-        playSound('fail'); // ← ADD THIS LINE
-        alert("IT AIN'T YOUR CUP OF TEA! Stop clicking like a maniac and wait for the window.");
-        resetToRunaway(); 
-    }
-});
+        btn.addEventListener('click', () => {
+            if (isClickable) {
+                clearTimeout(resetTimer);
+                playSound('success');
+                
+                alert("Level 1 Clear! You are now 99.9999999% done with the game. Just one more tiny thing to do... maybe.");
+                window.location.href = "level2.html";
+
+            } else {
+                playSound('fail');
+                alert("IT AIN'T YOUR CUP OF TEA! Stop clicking like a maniac and wait for the window.");
+                resetToRunaway(); 
+            }
+        });
     </script>
 </body>
 </html>

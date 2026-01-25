@@ -180,6 +180,7 @@
             background: #fff;
             line-height: 1.6;
             margin-bottom: 20px;
+            animation: border-flash 1s linear infinite;
         }
 
         .tos-wrapper > p {
@@ -287,7 +288,6 @@
             }
         }
 
-        /* Annoying floating emojis */
         .floating-emoji {
             position: fixed;
             font-size: 40px;
@@ -301,7 +301,6 @@
             50% { transform: translateY(-50px) rotate(180deg); }
         }
 
-        /* Flashing border chaos */
         @keyframes border-flash {
             0% { border-color: red; }
             25% { border-color: lime; }
@@ -310,12 +309,133 @@
             100% { border-color: red; }
         }
 
-        #tos-box {
-            animation: border-flash 1s linear infinite;
+        /* CHEATER DETECTED OVERLAY */
+        .cheater-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0000, #000000, #ff0000, #000000);
+            background-size: 400% 400%;
+            animation: cheater-bg 2s ease infinite;
+            z-index: 999999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cheater-overlay.active {
+            display: flex;
+        }
+
+        @keyframes cheater-bg {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .cheater-content {
+            background: #000;
+            border: 10px solid #ff0000;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
+            animation: cheater-shake 0.3s infinite;
+            max-width: 80%;
+        }
+
+        @keyframes cheater-shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-5px, 5px) rotate(-2deg); }
+            50% { transform: translate(5px, -5px) rotate(2deg); }
+            75% { transform: translate(-5px, -5px) rotate(-1deg); }
+        }
+        
+
+        .cheater-title {
+            font-size: 60px;
+            color: #ff0000;
+            font-family: Impact, sans-serif;
+            text-shadow: 5px 5px #000, -5px -5px #ffff00;
+            margin-bottom: 20px;
+            animation: cheater-glitch 0.5s infinite;
+        }
+
+        @keyframes cheater-glitch {
+            0%, 100% { 
+                text-shadow: 5px 5px #000, -5px -5px #ffff00;
+                transform: translate(0, 0);
+            }
+            25% { 
+                text-shadow: -5px 5px #00ff00, 5px -5px #ff00ff;
+                transform: translate(-3px, 3px);
+            }
+            50% { 
+                text-shadow: 5px -5px #ffff00, -5px 5px #00ffff;
+                transform: translate(3px, -3px);
+            }
+            75% { 
+                text-shadow: -5px -5px #ff0000, 5px 5px #0000ff;
+                transform: translate(-3px, -3px);
+            }
+        }
+
+        .cheater-message {
+            font-size: 24px;
+            color: #ffff00;
+            margin-bottom: 30px;
+            font-family: 'Comic Sans MS', cursive;
+            animation: cheater-blink 1s infinite;
+        }
+
+        @keyframes cheater-blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        .cheater-warning {
+            font-size: 18px;
+            color: #00ff00;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .skull-emoji {
+            font-size: 100px;
+            animation: skull-spin 2s linear infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes skull-spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
         }
     </style>
 </head>
 <body>
+
+    <!-- CHEATER DETECTED OVERLAY -->
+    <div class="cheater-overlay" id="cheaterOverlay">
+        <div class="cheater-content">
+            <div class="cheater-title">🚨 CHEATER DETECTED! 🚨</div>
+            <div class="skull-emoji">💀</div>
+            <div class="cheater-message">
+                TRYING TO INSPECT THE ELEMENTS?!<br>
+                NICE TRY, BUDDY! 😈<br>
+                <br>
+                YOU THOUGHT YOU COULD CHEAT YOUR WAY OUT?<br>
+                PATHETIC!
+            </div>
+            <div class="cheater-warning">
+                ⚠️ The Developer Console is FORBIDDEN! ⚠️<br>
+                Close DevTools and refresh the page to continue...<br>
+                Or just give up already! 🤣
+            </div>
+        </div>
+    </div>
+
     <div class="progress-container">
         <div class="progress-text">ESTIMATED PROGRESS: 99.9999999%</div>
         <div class="progress-bar"><div class="progress-fill"></div></div>
@@ -360,7 +480,100 @@
     </div>
 
     <script>
-        // Create floating emojis for extra chaos
+        const cheaterOverlay = document.getElementById('cheaterOverlay');
+        let devToolsOpen = false;
+
+        const detectDevTools = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+            
+            if (widthThreshold || heightThreshold) {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        };
+
+        const devToolCheck = setInterval(() => {
+            const before = new Date();
+            debugger;
+            const after = new Date();
+            
+            if (after - before > 100) {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        }, 1000);
+
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        });
+
+        setInterval(() => {
+            console.log(element);
+            console.clear();
+        }, 1000);
+
+        setInterval(detectDevTools, 500);
+
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showCheaterScreen();
+            return false;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                (e.metaKey && e.altKey && e.key === 'I')
+            ) {
+                e.preventDefault();
+                showCheaterScreen();
+                return false;
+            }
+        });
+
+        function showCheaterScreen() {
+            cheaterOverlay.classList.add('active');
+            playCheatSound();
+            document.body.style.pointerEvents = 'none';
+        }
+
+        function playCheatSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    oscillator.frequency.value = i % 2 === 0 ? 800 : 400;
+                    oscillator.type = 'square';
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.3);
+                }, i * 200);
+            }
+        }
+
         const emojis = ['😵', '🤪', '😵‍💫', '🤬', '😤', '💀', '👻', '🔥', '💩', '🤡'];
         for (let i = 0; i < 15; i++) {
             const emoji = document.createElement('div');
@@ -373,7 +586,6 @@
             document.body.appendChild(emoji);
         }
 
-        // Create multiple floating clocks
         const clockTexts = ["⏰ 2 MIN LEFT", "⏰ 5 MIN LEFT", "⏰ 10 MIN LEFT", "⏰ ALMOST DONE", "⏰ WAIT WHY MORE TIME", "⏰ FOREVER LEFT", "⏰ TIME IS FAKE"];
         for (let i = 0; i < 8; i++) {
             const clock = document.createElement('div');
@@ -385,7 +597,6 @@
         const goodBtn = document.querySelector('.good');
         const clocks = document.querySelectorAll('.rage-clock');
 
-        // Randomize ALL clock times constantly
         setInterval(() => {
             clocks.forEach(clock => {
                 const fakeTimes = ["⏰ 2 MIN", "⏰ 5 MIN", "⏰ 10 MIN", "⏰ DONE", "⏰ WHY MORE", "⏰ FOREVER", "⏰ FAKE TIME", "⏰ NEVER END"];
@@ -416,10 +627,8 @@
         tosBox.addEventListener('scroll', () => {
             let st = tosBox.scrollTop;
 
-            // Clear previous timeout
             clearTimeout(scrollTimeout);
             
-            // Check speed only after a small delay (50ms) to allow smooth scrolling
             scrollTimeout = setTimeout(() => {
                 if (Math.abs(st - lastScrollTop) > 300) {
                     alert("WOAH THERE! You are reading way too fast. Legally, I can't let you sign this if you don't read every word.");
@@ -459,7 +668,6 @@
             }
         });
 
-        // Make ALL fake buttons reset
         document.querySelectorAll('.evil, .fake, .decoy').forEach(btn => {
             btn.addEventListener('click', () => {
                 const insults = [
@@ -473,11 +681,9 @@
                 tosBox.scrollTop = 0;
                 scrollCount = 0;
                 
-                // Remove glow from good button
                 goodBtn.setAttribute('disabled', 'true');
                 goodBtn.classList.remove('glow');
                 
-                // Remove dynamic sections
                 const tosContent = tosBox.querySelectorAll('.dynamic-section');
                 tosContent.forEach(el => el.remove());
             });
@@ -502,13 +708,11 @@
             }
         });
 
-        // Make ALL buttons fly
         document.querySelectorAll('.rage-buttons button').forEach(btn => {
             btn.classList.add('flying');
             btn.style.animationDuration = (Math.random() * 4 + 3) + "s";
         });
 
-        // Make all clocks fly with different speeds
         clocks.forEach(clock => {
             clock.style.animation = `flyAround ${Math.random() * 5 + 4}s infinite linear, clock-crazy 0.2s infinite`;
         });

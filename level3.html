@@ -821,9 +821,133 @@
     box-shadow: 0 0 30px #00ffff;
     max-width: 300px;
 }
+
+    /* CHEATER OVERLAY */
+    .cheater-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #ff0000, #000000, #ff0000, #000000);
+        background-size: 400% 400%;
+        animation: cheater-bg 2s ease infinite;
+        z-index: 999999;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: default; /* ← ADD THIS */
+        filter: none !important; /* ← ADD THIS to override body filter */
+    }
+
+    .cheater-overlay.active {
+        display: flex;
+    }
+
+    @keyframes cheater-bg {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .cheater-content {
+        background: #000;
+        border: 10px solid #ff0000;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
+        animation: cheater-shake 0.3s infinite;
+        max-width: 80%;
+    }
+
+    @keyframes cheater-shake {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(-5px, 5px) rotate(-2deg); }
+        50% { transform: translate(5px, -5px) rotate(2deg); }
+        75% { transform: translate(-5px, -5px) rotate(-1deg); }
+    }
+
+    .cheater-title {
+        font-size: 60px;
+        color: #ff0000;
+        font-family: Impact, sans-serif;
+        text-shadow: 5px 5px #000, -5px -5px #ffff00;
+        margin-bottom: 20px;
+        animation: cheater-glitch 0.5s infinite;
+    }
+
+    @keyframes cheater-glitch {
+        0%, 100% { 
+            text-shadow: 5px 5px #000, -5px -5px #ffff00;
+            transform: translate(0, 0);
+        }
+        25% { 
+            text-shadow: -5px 5px #00ff00, 5px -5px #ff00ff;
+            transform: translate(-3px, 3px);
+        }
+        50% { 
+            text-shadow: 5px -5px #ffff00, -5px 5px #00ffff;
+            transform: translate(3px, -3px);
+        }
+        75% { 
+            text-shadow: -5px -5px #ff0000, 5px 5px #0000ff;
+            transform: translate(-3px, -3px);
+        }
+    }
+
+    .cheater-message {
+        font-size: 24px;
+        color: #ffff00;
+        margin-bottom: 30px;
+        font-family: 'Comic Sans MS', cursive;
+        animation: cheater-blink 1s infinite;
+    }
+
+    @keyframes cheater-blink {
+        0%, 50%, 100% { opacity: 1; }
+        25%, 75% { opacity: 0.3; }
+    }
+
+    .cheater-warning {
+        font-size: 18px;
+        color: #00ff00;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .skull-emoji {
+        font-size: 100px;
+        animation: skull-spin 2s linear infinite;
+        margin: 20px 0;
+    }
+
+    @keyframes skull-spin {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.2); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
     </style>
 </head>
 <body>
+        <!-- CHEATER DETECTED OVERLAY -->
+    <div class="cheater-overlay" id="cheaterOverlay">
+        <div class="cheater-content">
+            <div class="cheater-title">🚨 CHEATER DETECTED! 🚨</div>
+            <div class="skull-emoji">💀</div>
+            <div class="cheater-message">
+                TRYING TO INSPECT THE ELEMENTS?!<br>
+                NICE TRY, BUDDY! 😈<br>
+                <br>
+                YOU THOUGHT YOU COULD CHEAT YOUR WAY OUT?<br>
+                PATHETIC!
+            </div>
+            <div class="cheater-warning">
+                ⚠️ The Developer Console is FORBIDDEN! ⚠️<br>
+                Close DevTools and refresh the page to continue...<br>
+                Or just give up already! 🤣
+            </div>
+        </div>
+    </div>
     <div class="header">
         <div class="progress-bar">
             <div class="progress-fill"></div>
@@ -924,6 +1048,99 @@
     </div>
 
     <script>
+    //ANTI-CHEAT SYSTEM 
+        const cheaterOverlay = document.getElementById('cheaterOverlay');
+        let devToolsOpen = false;
+
+        // Method 1: Window size detection
+        const detectDevTools = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+            if ((widthThreshold || heightThreshold) && !devToolsOpen) {
+                devToolsOpen = true;
+                showCheaterScreen();
+            }
+        };
+
+        // Method 2: Debugger detection
+        setInterval(() => {
+            const before = new Date();
+            debugger;
+            const after = new Date();
+            if (after - before > 100 && !devToolsOpen) {
+                devToolsOpen = true;
+                showCheaterScreen();
+            }
+        }, 1000);
+
+        // Method 3: Console detection
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    showCheaterScreen();
+                }
+            }
+        });
+
+        setInterval(() => {
+            console.log(element);
+            console.clear();
+        }, 1000);
+
+        // Method 4: Periodic dimension check
+        setInterval(detectDevTools, 500);
+
+        // Method 5: Right-click prevention
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showCheaterScreen();
+            return false;
+        });
+
+        // Method 6: Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                (e.metaKey && e.altKey && e.key === 'I')) {
+                e.preventDefault();
+                showCheaterScreen();
+                return false;
+            }
+        });
+
+        function showCheaterScreen() {
+        cheaterOverlay.classList.add('active');
+        playCheatSound();
+        
+        // Disable all page interactions
+        document.body.style.pointerEvents = 'none';
+        
+        // Override body filter to make overlay visible
+        document.body.style.filter = 'none';
+        document.body.style.animation = 'none';
+    }
+        function playCheatSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    oscillator.frequency.value = i % 2 === 0 ? 800 : 400;
+                    oscillator.type = 'square';
+                    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.3);
+                }, i * 200);
+            }
+        }
+
         // Drunken Navigation Setup
         const buttons = [
             document.getElementById('btn1'),
@@ -1232,3 +1449,5 @@ function createSparkle(x, y) {
     </script>
 </body>
 </html>
+
+
