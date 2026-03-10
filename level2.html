@@ -351,7 +351,6 @@
             50% { transform: translate(5px, -5px) rotate(2deg); }
             75% { transform: translate(-5px, -5px) rotate(-1deg); }
         }
-        
 
         .cheater-title {
             font-size: 60px;
@@ -483,23 +482,14 @@
         const cheaterOverlay = document.getElementById('cheaterOverlay');
         let devToolsOpen = false;
 
-        const detectDevTools = () => {
-            const widthThreshold = window.outerWidth - window.innerWidth > 160;
-            const heightThreshold = window.outerHeight - window.innerHeight > 160;
-            
-            if (widthThreshold || heightThreshold) {
-                if (!devToolsOpen) {
-                    devToolsOpen = true;
-                    showCheaterScreen();
-                }
-            }
-        };
 
+        // Debugger-timing trick (works on desktop browsers, safe to skip on mobile)
         const devToolCheck = setInterval(() => {
             const before = new Date();
+            // eslint-disable-next-line no-debugger
             debugger;
             const after = new Date();
-            
+
             if (after - before > 100) {
                 if (!devToolsOpen) {
                     devToolsOpen = true;
@@ -508,6 +498,7 @@
             }
         }, 1000);
 
+        // toString trick — triggers when devtools inspects the object
         const element = new Image();
         Object.defineProperty(element, 'id', {
             get: function() {
@@ -523,14 +514,14 @@
             console.clear();
         }, 1000);
 
-        setInterval(detectDevTools, 500);
-
+        // Block right-click context menu
         document.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             showCheaterScreen();
             return false;
         });
 
+        // Block devtools keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (
                 e.key === 'F12' ||

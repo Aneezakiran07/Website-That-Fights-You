@@ -74,22 +74,13 @@
             position: relative;
             overflow: visible;
             margin-bottom: 10px;
-            box-shadow: 
-                inset 0 0 20px #ff00ff,
-                0 0 30px #00ff41,
-                0 5px 15px rgba(0, 255, 65, 0.5);
+            box-shadow: inset 0 0 20px #ff00ff, 0 0 30px #00ff41, 0 5px 15px rgba(0, 255, 65, 0.5);
             animation: progressPulse 2s infinite;
         }
 
         @keyframes progressPulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: inset 0 0 20px #ff00ff, 0 0 30px #00ff41;
-            }
-            50% { 
-                transform: scale(1.02);
-                box-shadow: inset 0 0 30px #ff0000, 0 0 50px #ffff00;
-            }
+            0%, 100% { transform: scale(1); box-shadow: inset 0 0 20px #ff00ff, 0 0 30px #00ff41; }
+            50% { transform: scale(1.02); box-shadow: inset 0 0 30px #ff0000, 0 0 50px #ffff00; }
         }
 
         .progress-fill {
@@ -114,45 +105,12 @@
             100% { background-position: 100% 50%; }
         }
 
-        .progress-indicator {
-            position: absolute;
-            right: -2px;
-            top: -5px;
-            width: 4px;
-            height: 40px;
-            background: #ffff00;
-            border-radius: 2px;
-            box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ff0000;
-            animation: indicatorGlow 1s infinite, indicatorWobble 2s ease-in-out infinite;
-        }
-
-        @keyframes indicatorGlow {
-            0%, 100% { 
-                box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
-                background: #ffff00;
-            }
-            50% { 
-                box-shadow: 0 0 30px #ffff00, 0 0 50px #ffff00, 0 0 70px #ff0000;
-                background: #ff0000;
-            }
-        }
-
-        @keyframes indicatorWobble {
-            0%, 100% { transform: translateY(0) scaleY(1); }
-            25% { transform: translateY(-3px) scaleY(1.1); }
-            75% { transform: translateY(3px) scaleY(0.9); }
-        }
-
         .progress-text {
             font-family: Impact, sans-serif;
             font-size: 24px;
             text-align: center;
             letter-spacing: 2px;
-            text-shadow: 
-                0 0 10px #00ff41,
-                0 0 20px #ff00ff,
-                3px 3px 0 #000,
-                -3px -3px 0 #ffff00;
+            text-shadow: 0 0 10px #00ff41, 0 0 20px #ff00ff, 3px 3px 0 #000, -3px -3px 0 #ffff00;
             animation: textWobble 3s infinite;
         }
 
@@ -190,10 +148,7 @@
             font-size: 14px;
             text-align: center;
             z-index: 999;
-            text-shadow: 
-                0 0 10px #ff0000,
-                0 0 20px #ffff00,
-                2px 2px 0 #000;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ffff00, 2px 2px 0 #000;
             animation: blink 1s infinite, hintBounce 2s ease-in-out infinite;
             background: rgba(0, 0, 0, 0.8);
             padding: 15px;
@@ -253,14 +208,8 @@
         }
 
         @keyframes superGlow {
-            0%, 100% { 
-                box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ff0000;
-                transform: rotate(0deg) scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 60px #ff0000, 0 0 100px #ffff00, 0 0 150px #00ff00;
-                transform: rotate(180deg) scale(1.2);
-            }
+            0%, 100% { box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000, 0 0 80px #ff0000; transform: rotate(0deg) scale(1); }
+            50% { box-shadow: 0 0 60px #ff0000, 0 0 100px #ffff00, 0 0 150px #00ff00; transform: rotate(180deg) scale(1.2); }
         }
 
         .secret-win:hover {
@@ -269,7 +218,6 @@
             height: 70px;
         }
 
-        /* FAKE COUNTDOWN CLOCKS */
         .fake-timer {
             position: fixed;
             background: linear-gradient(45deg, red, darkred, red);
@@ -303,15 +251,12 @@
         .fake-timer.timer4 { bottom: 100px; left: 50px; }
         .fake-timer.timer5 { bottom: 100px; right: 50px; }
 
-        /* ANNOYING POP-UPS */
         .fake-popup {
             position: fixed;
             background: white;
             border: 5px solid blue;
             padding: 20px;
-            box-shadow: 
-                10px 10px 0 rgba(0,0,0,0.5),
-                0 0 30px rgba(0, 0, 255, 0.7);
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.5), 0 0 30px rgba(0, 0, 255, 0.7);
             z-index: 600;
             font-family: Arial, sans-serif;
             color: black;
@@ -323,10 +268,7 @@
             50% { transform: rotate(-5deg) translateY(-10px); }
         }
 
-        .fake-popup.popup1 {
-            top: 300px;
-            left: 100px;
-        }
+        .fake-popup.popup1 { top: 300px; left: 100px; }
 
         .fake-popup.popup2 {
             top: 400px;
@@ -369,7 +311,6 @@
             transform: scale(1.1) rotate(5deg);
         }
 
-        /* FAKE LOADING BARS */
         .fake-loading {
             position: fixed;
             width: 300px;
@@ -402,16 +343,12 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* SPINNING TEXT */
         .spinning-text {
             position: fixed;
             font-size: 40px;
             font-weight: bold;
             color: magenta;
-            text-shadow: 
-                3px 3px yellow,
-                -3px -3px cyan,
-                0 0 20px magenta;
+            text-shadow: 3px 3px yellow, -3px -3px cyan, 0 0 20px magenta;
             animation: spinText 2s linear infinite, textPulse 1s ease-in-out infinite;
             z-index: 400;
         }
@@ -447,25 +384,15 @@
             font-size: 20px;
             cursor: pointer;
             transition: all 0.05s ease;
-            box-shadow: 
-                0 0 20px #ff00ff,
-                inset 0 0 10px rgba(255, 255, 0, 0.3);
+            box-shadow: 0 0 20px #ff00ff, inset 0 0 10px rgba(255, 255, 0, 0.3);
             font-weight: bold;
             animation: buttonPulse 2s ease-in-out infinite;
-            text-shadow: 
-                2px 2px 0 #000,
-                0 0 10px #ffff00;
+            text-shadow: 2px 2px 0 #000, 0 0 10px #ffff00;
         }
 
         @keyframes buttonPulse {
-            0%, 100% { 
-                background-position: 0% 50%;
-                box-shadow: 0 0 20px #ff00ff;
-            }
-            50% { 
-                background-position: 100% 50%;
-                box-shadow: 0 0 40px #ff00ff, 0 0 60px #00ffff;
-            }
+            0%, 100% { background-position: 0% 50%; box-shadow: 0 0 20px #ff00ff; }
+            50% { background-position: 100% 50%; box-shadow: 0 0 40px #ff00ff, 0 0 60px #00ffff; }
         }
 
         .nav-button:hover {
@@ -484,10 +411,7 @@
             font-family: 'Comic Sans MS', cursive;
             font-size: 48px;
             margin-bottom: 30px;
-            text-shadow: 
-                5px 5px #ff00ff,
-                -5px -5px #00ffff,
-                0 0 30px #ffff00;
+            text-shadow: 5px 5px #ff00ff, -5px -5px #00ffff, 0 0 30px #ffff00;
             animation: glitch 3s infinite, h1Rainbow 5s linear infinite;
             color: #ffff00;
         }
@@ -516,9 +440,7 @@
             max-width: 800px;
             margin: 0 auto 30px auto;
             color: #ffffff;
-            text-shadow: 
-                2px 2px #000,
-                0 0 5px #ff00ff;
+            text-shadow: 2px 2px #000, 0 0 5px #ff00ff;
             animation: pWobble 5s ease-in-out infinite;
         }
 
@@ -553,7 +475,6 @@
             50% { transform: scale(1.05); }
         }
 
-        /* FAKE DIALOGS */
         .error-dialog {
             position: fixed;
             background: linear-gradient(135deg, red, darkred, red);
@@ -605,36 +526,12 @@
         }
 
         @keyframes glitchEffect {
-            0%, 90%, 100% {
-                transform: translate(0, 0);
-                opacity: 1;
-                filter: hue-rotate(0deg);
-            }
-            91% {
-                transform: translate(-5px, 2px);
-                opacity: 0.8;
-                filter: hue-rotate(90deg);
-            }
-            92% {
-                transform: translate(5px, -2px);
-                opacity: 0.6;
-                filter: hue-rotate(180deg);
-            }
-            93% {
-                transform: translate(-3px, -3px);
-                opacity: 0.9;
-                filter: hue-rotate(270deg);
-            }
-            94% {
-                transform: translate(3px, 3px);
-                opacity: 0.7;
-                filter: hue-rotate(45deg);
-            }
-            95% {
-                transform: translate(0, 0);
-                opacity: 1;
-                filter: hue-rotate(0deg);
-            }
+            0%, 90%, 100% { transform: translate(0, 0); opacity: 1; filter: hue-rotate(0deg); }
+            91% { transform: translate(-5px, 2px); opacity: 0.8; filter: hue-rotate(90deg); }
+            92% { transform: translate(5px, -2px); opacity: 0.6; filter: hue-rotate(180deg); }
+            93% { transform: translate(-3px, -3px); opacity: 0.9; filter: hue-rotate(270deg); }
+            94% { transform: translate(3px, 3px); opacity: 0.7; filter: hue-rotate(45deg); }
+            95% { transform: translate(0, 0); opacity: 1; filter: hue-rotate(0deg); }
         }
 
         .glitch-intense {
@@ -642,294 +539,210 @@
         }
 
         @keyframes glitchIntense {
-            0%, 85%, 100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-                filter: hue-rotate(0deg) saturate(1);
-            }
-            86% {
-                transform: translate(-10px, 5px) scale(1.05);
-                opacity: 0.5;
-                filter: hue-rotate(180deg) saturate(3);
-            }
-            87% {
-                transform: translate(10px, -5px) scale(0.95);
-                opacity: 0.3;
-                filter: hue-rotate(90deg) saturate(5);
-            }
-            88% {
-                transform: translate(-8px, -8px) scale(1.1);
-                opacity: 0.6;
-                filter: hue-rotate(270deg) saturate(2);
-            }
-            90% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-                filter: hue-rotate(0deg) saturate(1);
-            }
+            0%, 85%, 100% { transform: translate(0, 0) scale(1); opacity: 1; filter: hue-rotate(0deg) saturate(1); }
+            86% { transform: translate(-10px, 5px) scale(1.05); opacity: 0.5; filter: hue-rotate(180deg) saturate(3); }
+            87% { transform: translate(10px, -5px) scale(0.95); opacity: 0.3; filter: hue-rotate(90deg) saturate(5); }
+            88% { transform: translate(-8px, -8px) scale(1.1); opacity: 0.6; filter: hue-rotate(270deg) saturate(2); }
+            90% { transform: translate(0, 0) scale(1); opacity: 1; filter: hue-rotate(0deg) saturate(1); }
         }
 
-        /* SPARKLE EFFECTS */
-    .sparkle {
-        position: fixed;
-        width: 10px;
-        height: 10px;
-        background: radial-gradient(circle, #ffff00, #ff00ff, transparent);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        animation: sparkleFloat 1s ease-out forwards;
-}   
-
-    @keyframes sparkleFloat {
-        0% {
-            transform: translate(0, 0) scale(1);
-            opacity: 1;
+        .sparkle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ffff00, #ff00ff, transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            animation: sparkleFloat 1s ease-out forwards;
         }
-        100% {
-            transform: translate(var(--tx), var(--ty)) scale(0);
+
+        @keyframes sparkleFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        .proximity-glow {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 0, 0.3), rgba(255, 0, 255, 0.2), transparent);
+            pointer-events: none;
+            z-index: 9998;
             opacity: 0;
+            transition: opacity 0.3s;
+            animation: pulseGlow 2s ease-in-out infinite;
         }
-}
 
-    .proximity-glow {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 300px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(255, 255, 0, 0.3), rgba(255, 0, 255, 0.2), transparent);
-        pointer-events: none;
-        z-index: 9998;
-        opacity: 0;
-        transition: opacity 0.3s;
-        animation: pulseGlow 2s ease-in-out infinite;
-}
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.1); filter: brightness(1.5); }
+        }
 
-    @keyframes pulseGlow {
-        0%, 100% {
-            transform: scale(1);
-            filter: brightness(1);
-    }
-         50% {
-            transform: scale(1.1);
-            filter: brightness(1.5);
-    }
-}
+        .getting-warmer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            font-family: Impact, sans-serif;
+            color: #ffff00;
+            text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff, 0 0 60px #ff0000, 5px 5px 0 #000;
+            z-index: 10001;
+            pointer-events: none;
+            opacity: 0;
+            animation: warmerPulse 1s ease-in-out infinite;
+        }
 
-.getting-warmer {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 60px;
-    font-family: Impact, sans-serif;
-    color: #ffff00;
-    text-shadow: 
-        0 0 20px #ff00ff,
-        0 0 40px #00ffff,
-        0 0 60px #ff0000,
-        5px 5px 0 #000;
-    z-index: 10001;
-    pointer-events: none;
-    opacity: 0;
-    animation: warmerPulse 1s ease-in-out infinite;
-}
+        @keyframes warmerPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
 
-@keyframes warmerPulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.8;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 1;
-    }
-}
+        .hint-bottom-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #00ff00;
+            font-family: Impact, sans-serif;
+            font-size: 16px;
+            text-align: center;
+            z-index: 999;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #ffff00, 2px 2px 0 #000;
+            animation: blink 1.5s infinite, bounce 2s ease-in-out infinite;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border: 3px dashed #00ff00;
+            border-radius: 10px;
+            max-width: 300px;
+        }
 
-.hint-bottom-right {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    color: #00ff00;
-    font-family: Impact, sans-serif;
-    font-size: 16px;
-    text-align: center;
-    z-index: 999;
-    text-shadow: 
-        0 0 10px #00ff00,
-        0 0 20px #ffff00,
-        2px 2px 0 #000;
-    animation: blink 1.5s infinite, bounce 2s ease-in-out infinite;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 15px;
-    border: 3px dashed #00ff00;
-    border-radius: 10px;
-    max-width: 300px;
-}
+        .hint-bottom-left {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: #00ffff;
+            font-family: Impact, sans-serif;
+            font-size: 18px;
+            text-align: center;
+            z-index: 999;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff, 2px 2px 0 #000;
+            animation: blink 1.5s infinite, wiggle 2s ease-in-out infinite;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border: 3px solid #00ffff;
+            border-radius: 10px;
+            box-shadow: 0 0 30px #00ffff;
+            max-width: 300px;
+        }
 
-.hint-top-left {
-    position: fixed;
-    top: 120px;
-    left: 20px;
-    color: #ff00ff;
-    font-family: Impact, sans-serif;
-    font-size: 18px;
-    text-align: center;
-    z-index: 999;
-    text-shadow: 
-        0 0 10px #ff00ff,
-        0 0 20px #00ffff,
-        2px 2px 0 #000;
-    animation: blink 1.5s infinite, wiggle 2s ease-in-out infinite;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 15px;
-    border: 3px solid #ff00ff;
-    border-radius: 10px;
-    box-shadow: 0 0 30px #ff00ff;
-    max-width: 300px;
-}
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
 
-@keyframes wiggle {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-3deg); }
-    75% { transform: rotate(3deg); }
-}
-.hint-bottom-left {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    color: #00ffff;
-    font-family: Impact, sans-serif;
-    font-size: 18px;
-    text-align: center;
-    z-index: 999;
-    text-shadow: 
-        0 0 10px #00ffff,
-        0 0 20px #ff00ff,
-        2px 2px 0 #000;
-    animation: blink 1.5s infinite, wiggle 2s ease-in-out infinite;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 15px;
-    border: 3px solid #00ffff;
-    border-radius: 10px;
-    box-shadow: 0 0 30px #00ffff;
-    max-width: 300px;
-}
+        /* CHEATER OVERLAY */
+        .cheater-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0000, #000000, #ff0000, #000000);
+            background-size: 400% 400%;
+            animation: cheater-bg 2s ease infinite;
+            z-index: 999999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            filter: none !important;
+        }
 
-    /* CHEATER OVERLAY */
-    .cheater-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, #ff0000, #000000, #ff0000, #000000);
-        background-size: 400% 400%;
-        animation: cheater-bg 2s ease infinite;
-        z-index: 999999;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: default; /* ← ADD THIS */
-        filter: none !important; /* ← ADD THIS to override body filter */
-    }
+        .cheater-overlay.active { display: flex; }
 
-    .cheater-overlay.active {
-        display: flex;
-    }
+        @keyframes cheater-bg {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-    @keyframes cheater-bg {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
+        .cheater-content {
+            background: #000;
+            border: 10px solid #ff0000;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
+            animation: cheater-shake 0.3s infinite;
+            max-width: 80%;
+        }
 
-    .cheater-content {
-        background: #000;
-        border: 10px solid #ff0000;
-        padding: 40px;
-        text-align: center;
-        box-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
-        animation: cheater-shake 0.3s infinite;
-        max-width: 80%;
-    }
+        @keyframes cheater-shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-5px, 5px) rotate(-2deg); }
+            50% { transform: translate(5px, -5px) rotate(2deg); }
+            75% { transform: translate(-5px, -5px) rotate(-1deg); }
+        }
 
-    @keyframes cheater-shake {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25% { transform: translate(-5px, 5px) rotate(-2deg); }
-        50% { transform: translate(5px, -5px) rotate(2deg); }
-        75% { transform: translate(-5px, -5px) rotate(-1deg); }
-    }
-
-    .cheater-title {
-        font-size: 60px;
-        color: #ff0000;
-        font-family: Impact, sans-serif;
-        text-shadow: 5px 5px #000, -5px -5px #ffff00;
-        margin-bottom: 20px;
-        animation: cheater-glitch 0.5s infinite;
-    }
-
-    @keyframes cheater-glitch {
-        0%, 100% { 
+        .cheater-title {
+            font-size: 60px;
+            color: #ff0000;
+            font-family: Impact, sans-serif;
             text-shadow: 5px 5px #000, -5px -5px #ffff00;
-            transform: translate(0, 0);
+            margin-bottom: 20px;
+            animation: cheater-glitch 0.5s infinite;
         }
-        25% { 
-            text-shadow: -5px 5px #00ff00, 5px -5px #ff00ff;
-            transform: translate(-3px, 3px);
+
+        @keyframes cheater-glitch {
+            0%, 100% { text-shadow: 5px 5px #000, -5px -5px #ffff00; transform: translate(0, 0); }
+            25% { text-shadow: -5px 5px #00ff00, 5px -5px #ff00ff; transform: translate(-3px, 3px); }
+            50% { text-shadow: 5px -5px #ffff00, -5px 5px #00ffff; transform: translate(3px, -3px); }
+            75% { text-shadow: -5px -5px #ff0000, 5px 5px #0000ff; transform: translate(-3px, -3px); }
         }
-        50% { 
-            text-shadow: 5px -5px #ffff00, -5px 5px #00ffff;
-            transform: translate(3px, -3px);
+
+        .cheater-message {
+            font-size: 24px;
+            color: #ffff00;
+            margin-bottom: 30px;
+            font-family: 'Comic Sans MS', cursive;
+            animation: cheater-blink 1s infinite;
         }
-        75% { 
-            text-shadow: -5px -5px #ff0000, 5px 5px #0000ff;
-            transform: translate(-3px, -3px);
+
+        @keyframes cheater-blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
         }
-    }
 
-    .cheater-message {
-        font-size: 24px;
-        color: #ffff00;
-        margin-bottom: 30px;
-        font-family: 'Comic Sans MS', cursive;
-        animation: cheater-blink 1s infinite;
-    }
+        .cheater-warning {
+            font-size: 18px;
+            color: #00ff00;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
 
-    @keyframes cheater-blink {
-        0%, 50%, 100% { opacity: 1; }
-        25%, 75% { opacity: 0.3; }
-    }
+        .skull-emoji {
+            font-size: 100px;
+            animation: skull-spin 2s linear infinite;
+            margin: 20px 0;
+        }
 
-    .cheater-warning {
-        font-size: 18px;
-        color: #00ff00;
-        margin-top: 20px;
-        font-family: Arial, sans-serif;
-    }
-
-    .skull-emoji {
-        font-size: 100px;
-        animation: skull-spin 2s linear infinite;
-        margin: 20px 0;
-    }
-
-    @keyframes skull-spin {
-        0% { transform: rotate(0deg) scale(1); }
-        50% { transform: rotate(180deg) scale(1.2); }
-        100% { transform: rotate(360deg) scale(1); }
-    }
+        @keyframes skull-spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
     </style>
 </head>
 <body>
-        <!-- CHEATER DETECTED OVERLAY -->
+    <!-- CHEATER DETECTED OVERLAY -->
     <div class="cheater-overlay" id="cheaterOverlay">
         <div class="cheater-content">
             <div class="cheater-title">🚨 CHEATER DETECTED! 🚨</div>
@@ -948,6 +761,7 @@
             </div>
         </div>
     </div>
+
     <div class="header">
         <div class="progress-bar">
             <div class="progress-fill"></div>
@@ -956,14 +770,15 @@
         <div class="subtext">Your mouse seems to be struggling. Have you tried turning your hand upside down? BTW, HINT IS IN THE BOTTOM OF THE PAGE</div>
     </div>
 
-    <!-- VICTORY BUTTON - BIG SPINNING SQUARE -->
+    <!-- VICTORY BUTTON -->
     <a href="gameover.html" class="secret-win" id="victoryBtn">🎯</a>
+
     <!-- PROXIMITY EFFECTS -->
-<div class="proximity-glow" id="proximityGlow"></div>
-<div class="getting-warmer" id="warmerText" style="opacity: 0;">🔥 GETTING WARMER! 🔥</div>
+    <div class="proximity-glow" id="proximityGlow"></div>
+    <div class="getting-warmer" id="warmerText" style="opacity: 0;">🔥 GETTING WARMER! 🔥</div>
 
     <!-- FAKE COUNTDOWN TIMERS -->
-   <div class="fake-timer timer1 glitch-element">⏰ 9:47 LEFT!</div>
+    <div class="fake-timer timer1 glitch-element">⏰ 9:47 LEFT!</div>
     <div class="fake-timer timer2 glitch-element">⚠️ 10:12 REMAINING</div>
     <div class="fake-timer timer3 glitch-intense">🚨 LEVEL RESET IN 10:00 🚨</div>
     <div class="fake-timer timer4 glitch-element">⏳ 9:59... 9:58...</div>
@@ -986,35 +801,30 @@
     </div>
 
     <!-- FAKE LOADING BARS -->
-    <div class="fake-loading load1">
-        <div class="loading-fill"></div>
-    </div>
-    <div class="fake-loading load2">
-        <div class="loading-fill"></div>
-    </div>
+    <div class="fake-loading load1"><div class="loading-fill"></div></div>
+    <div class="fake-loading load2"><div class="loading-fill"></div></div>
 
     <!-- SPINNING TEXT -->
     <div class="spinning-text spin1 glitch-element">LOADING...</div>
     <div class="spinning-text spin2 glitch-element">ERROR!</div>
+
     <!-- FAKE ERROR DIALOGS -->
     <div class="error-dialog error1 glitch-intense">⛔ FATAL ERROR ⛔</div>
     <div class="error-dialog error2 glitch-intense">❌ SYSTEM CRASH ❌</div>
-   
 
     <div class="hint">
         HINT: THE SUCCESS BUTTON LOCATION IS REVEALED IN THE BOTTOM RIGHT CORNER &lt; FIND IT &gt;<br>
         THIS LEVEL IS EASY &lt; USER IS JUST.... &gt;
-
     </div>
-    <!-- BOTTOM RIGHT HINT -->
+
     <div class="hint-bottom-right">
         😏 Nice try! The REAL hint is in the BOTTOM LEFT CORNER! 😏
     </div>
 
-    <!-- TOP LEFT HINT -->
     <div class="hint-bottom-left">
         🎯 ALMOST THERE! Now check the TOP RIGHT CORNER! 🎯
     </div>
+
     <div class="maze-container">
         <button class="nav-button" id="btn1" data-original="HOME">HOME</button>
         <button class="nav-button" id="btn2" data-original="ABOUT">ABOUT</button>
@@ -1048,23 +858,14 @@
     </div>
 
     <script>
-    //ANTI-CHEAT SYSTEM 
+    // ANTI-CHEAT SYSTEM
         const cheaterOverlay = document.getElementById('cheaterOverlay');
         let devToolsOpen = false;
 
-        // Method 1: Window size detection
-        const detectDevTools = () => {
-            const widthThreshold = window.outerWidth - window.innerWidth > 160;
-            const heightThreshold = window.outerHeight - window.innerHeight > 160;
-            if ((widthThreshold || heightThreshold) && !devToolsOpen) {
-                devToolsOpen = true;
-                showCheaterScreen();
-            }
-        };
-
-        // Method 2: Debugger detection
+        // Debugger-timing trick (desktop only, no false positives on tablets)
         setInterval(() => {
             const before = new Date();
+            // eslint-disable-next-line no-debugger
             debugger;
             const after = new Date();
             if (after - before > 100 && !devToolsOpen) {
@@ -1073,7 +874,7 @@
             }
         }, 1000);
 
-        // Method 3: Console detection
+        // toString / getter trap — fires when devtools inspects the object
         const element = new Image();
         Object.defineProperty(element, 'id', {
             get: function() {
@@ -1089,17 +890,14 @@
             console.clear();
         }, 1000);
 
-        // Method 4: Periodic dimension check
-        setInterval(detectDevTools, 500);
-
-        // Method 5: Right-click prevention
+        // Block right-click context menu
         document.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             showCheaterScreen();
             return false;
         });
 
-        // Method 6: Keyboard shortcuts
+        // Block devtools keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'F12' ||
                 (e.ctrlKey && e.shiftKey && e.key === 'I') ||
@@ -1113,16 +911,13 @@
         });
 
         function showCheaterScreen() {
-        cheaterOverlay.classList.add('active');
-        playCheatSound();
-        
-        // Disable all page interactions
-        document.body.style.pointerEvents = 'none';
-        
-        // Override body filter to make overlay visible
-        document.body.style.filter = 'none';
-        document.body.style.animation = 'none';
-    }
+            cheaterOverlay.classList.add('active');
+            playCheatSound();
+            document.body.style.pointerEvents = 'none';
+            document.body.style.filter = 'none';
+            document.body.style.animation = 'none';
+        }
+
         function playCheatSound() {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             for (let i = 0; i < 5; i++) {
@@ -1149,7 +944,6 @@
             document.getElementById('btn4')
         ];
 
-        // Initial random positions
         const positions = [
             { top: 300, left: 150 },
             { top: 300, left: 600 },
@@ -1157,7 +951,6 @@
             { top: 500, left: 600 }
         ];
 
-        // Shuffle positions
         for (let i = positions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [positions[i], positions[j]] = [positions[j], positions[i]];
@@ -1167,36 +960,30 @@
             btn.style.top = positions[i].top + 'px';
             btn.style.left = positions[i].left + 'px';
         });
+
         // MAKE BUTTONS FLY AROUND
         const flyingButtons = buttons.map(btn => ({
-        el: btn,
-        x: parseFloat(btn.style.left),
-        y: parseFloat(btn.style.top),
-        dx: (Math.random() * 2 + 1) * (Math.random() > 0.5 ? 1 : -1),
-        dy: (Math.random() * 2 + 1) * (Math.random() > 0.5 ? 1 : -1)
-    }));
+            el: btn,
+            x: parseFloat(btn.style.left),
+            y: parseFloat(btn.style.top),
+            dx: (Math.random() * 2 + 1) * (Math.random() > 0.5 ? 1 : -1),
+            dy: (Math.random() * 2 + 1) * (Math.random() > 0.5 ? 1 : -1)
+        }));
 
         setInterval(() => {
-        flyingButtons.forEach(obj => {
-        obj.x += obj.dx;
-        obj.y += obj.dy;
+            flyingButtons.forEach(obj => {
+                obj.x += obj.dx;
+                obj.y += obj.dy;
 
-        const rect = obj.el.getBoundingClientRect();
+                const rect = obj.el.getBoundingClientRect();
 
-        // bounce from edges
-        if (obj.x <= 0 || obj.x + rect.width >= window.innerWidth) {
-            obj.dx *= -1;
-        }
+                if (obj.x <= 0 || obj.x + rect.width >= window.innerWidth) obj.dx *= -1;
+                if (obj.y <= 120 || obj.y + rect.height >= window.innerHeight) obj.dy *= -1;
 
-        if (obj.y <= 120 || obj.y + rect.height >= window.innerHeight) {
-            obj.dy *= -1;
-        }
-
-        obj.el.style.left = obj.x + 'px';
-        obj.el.style.top = obj.y + 'px';
-         });
-        }, 16); // ~60fps
-
+                obj.el.style.left = obj.x + 'px';
+                obj.el.style.top = obj.y + 'px';
+            });
+        }, 16);
 
         // Mouse proximity detection for buttons
         let lastSwapTime = 0;
@@ -1210,11 +997,7 @@
                 const rect = btn.getBoundingClientRect();
                 const centerX = rect.left + rect.width / 2;
                 const centerY = rect.top + rect.height / 2;
-                
-                const distance = Math.sqrt(
-                    Math.pow(e.clientX - centerX, 2) + 
-                    Math.pow(e.clientY - centerY, 2)
-                );
+                const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
 
                 if (distance < 60) {
                     const otherIdx = (idx + 1 + Math.floor(Math.random() * 3)) % 4;
@@ -1222,10 +1005,8 @@
 
                     const tempTop = btn.style.top;
                     const tempLeft = btn.style.left;
-                    
                     btn.style.top = otherBtn.style.top;
                     btn.style.left = otherBtn.style.left;
-                    
                     otherBtn.style.top = tempTop;
                     otherBtn.style.left = tempLeft;
 
@@ -1235,219 +1016,140 @@
         });
 
         buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const label = btn.getAttribute('data-original');
-        
-        playAnnoyingSound();
-        
-        if (label === 'PROCEED') {
-            shakeScreen(); 
-            alert('NICE TRY, BUT NO.');
-            location.reload();
-        } else if (label === 'DONT') {
-            shakeScreen(); 
-            alert('I SPECIFICALLY TOLD YOU NOT TO CLICK THIS. NOW LOOK WHAT YOU\'VE DONE.');
-        } else if (label === 'HOME') {
-            shakeScreen(); // 
-            alert('There is no home. Only suffering.');
-        } else if (label === 'ABOUT') {
-            shakeScreen(); // 
-            alert('This is about watching you struggle. That\'s literally it.');
+            btn.addEventListener('click', () => {
+                const label = btn.getAttribute('data-original');
+                playAnnoyingSound();
+                if (label === 'PROCEED') {
+                    shakeScreen();
+                    alert('NICE TRY, BUT NO.');
+                    location.reload();
+                } else if (label === 'DONT') {
+                    shakeScreen();
+                    alert('I SPECIFICALLY TOLD YOU NOT TO CLICK THIS. NOW LOOK WHAT YOU\'VE DONE.');
+                } else if (label === 'HOME') {
+                    shakeScreen();
+                    alert('There is no home. Only suffering.');
+                } else if (label === 'ABOUT') {
+                    shakeScreen();
+                    alert('This is about watching you struggle. That\'s literally it.');
+                }
+            });
+        });
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playAnnoyingSound() {
+            const sounds = ['beep', 'boop', 'buzz', 'honk', 'blip'];
+            const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            switch(randomSound) {
+                case 'beep':  oscillator.frequency.value = 800;  oscillator.type = 'sine';     break;
+                case 'boop':  oscillator.frequency.value = 400;  oscillator.type = 'square';   break;
+                case 'buzz':  oscillator.frequency.value = 200;  oscillator.type = 'sawtooth'; break;
+                case 'honk':  oscillator.frequency.value = 150;  oscillator.type = 'triangle'; break;
+                case 'blip':  oscillator.frequency.value = 1000; oscillator.type = 'sine';     break;
+            }
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
         }
-    });
-});
 
-       // ============================================
-//random popup noise ( i hope user play this with noise on :"()")
-// Using Web Audio API to generate annoying beep sounds
-
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-function playAnnoyingSound() {
-    const sounds = ['beep', 'boop', 'buzz', 'honk', 'blip'];
-    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
-    
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Different frequencies for different "sounds"
-    switch(randomSound) {
-        case 'beep':
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-            break;
-        case 'boop':
-            oscillator.frequency.value = 400;
-            oscillator.type = 'square';
-            break;
-        case 'buzz':
-            oscillator.frequency.value = 200;
-            oscillator.type = 'sawtooth';
-            break;
-        case 'honk':
-            oscillator.frequency.value = 150;
-            oscillator.type = 'triangle';
-            break;
-        case 'blip':
-            oscillator.frequency.value = 1000;
-            oscillator.type = 'sine';
-            break;
-    }
-    
-    // Quick fade out
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.2);
-}
-
-        // Make fake popups draggable (but they do nothing)
         document.querySelectorAll('.popup-button').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        playAnnoyingSound(); // ← ADD THIS LINE
-        alert('This button does NOTHING. Keep looking! 😈');
-    });
-});
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                playAnnoyingSound();
+                alert('This button does NOTHING. Keep looking! 😈');
+            });
+        });
 
-        // Update countdown timers with fake countdown
+        // Fake countdown timers
         const timers = document.querySelectorAll('.fake-timer');
         let fakeMinutes = 10;
         let fakeSeconds = 0;
-        
+
         setInterval(() => {
             fakeSeconds--;
-            if (fakeSeconds < 0) {
-                fakeSeconds = 59;
-                fakeMinutes--;
-            }
-            if (fakeMinutes < 0) {
-                fakeMinutes = 10;
-                fakeSeconds = 0;
-            }
-            
+            if (fakeSeconds < 0) { fakeSeconds = 59; fakeMinutes--; }
+            if (fakeMinutes < 0) { fakeMinutes = 10; fakeSeconds = 0; }
             const timeStr = `${fakeMinutes}:${fakeSeconds.toString().padStart(2, '0')}`;
             timers[0].textContent = `⏰ ${timeStr} LEFT!`;
             timers[3].textContent = `⏳ ${timeStr}... HURRY!`;
         }, 1000);
 
-        //making the success button appear
-      //  const victoryBtn = document.getElementById('victoryBtn');
+        // Victory button proximity system
+        const victoryBtn = document.getElementById('victoryBtn');
+        const proximityGlow = document.getElementById('proximityGlow');
+        const warmerText = document.getElementById('warmerText');
+        let sparkleInterval = null;
 
-const victoryBtn = document.getElementById('victoryBtn');
-const proximityGlow = document.getElementById('proximityGlow');
-const warmerText = document.getElementById('warmerText');
-let sparkleInterval = null;
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
 
-document.addEventListener('mousemove', (e) => {
-    const x = e.clientX;
-    const y = e.clientY;
+            const targetX = window.innerWidth * 0.9;
+            const targetY = window.innerHeight * 0.15;
+            const distance = Math.sqrt(Math.pow(x - targetX, 2) + Math.pow(y - targetY, 2));
 
-    // Calculate distance to secret zone (top-right corner)
-    const targetX = window.innerWidth * 0.9;
-    const targetY = window.innerHeight * 0.15;
-    const distance = Math.sqrt(
-        Math.pow(x - targetX, 2) + 
-        Math.pow(y - targetY, 2)
-    );
+            const secretZone = x > window.innerWidth * 0.8 && y < window.innerHeight * 0.25;
 
-    const secretZone =
-        x > window.innerWidth * 0.8 &&
-        y < window.innerHeight * 0.25;
+            if (distance < 300) {
+                const intensity = 1 - (distance / 300);
+                proximityGlow.style.opacity = intensity * 0.7;
 
-    // CLOSE PROXIMITY (within 300px) - Show hints
-    if (distance < 300) {
-        const intensity = 1 - (distance / 300); // 0 to 1
-        proximityGlow.style.opacity = intensity * 0.7;
-        
-        // Show "GETTING WARMER" text when very close
-        if (distance < 150) {
-            warmerText.style.opacity = intensity;
-            
-            // Create sparkles
-            if (!sparkleInterval) {
-                sparkleInterval = setInterval(() => {
-                    createSparkle(x, y);
-                }, 100);
+                if (distance < 150) {
+                    warmerText.style.opacity = intensity;
+                    if (!sparkleInterval) {
+                        sparkleInterval = setInterval(() => createSparkle(x, y), 100);
+                    }
+                } else {
+                    warmerText.style.opacity = 0;
+                    if (sparkleInterval) { clearInterval(sparkleInterval); sparkleInterval = null; }
+                }
+            } else {
+                proximityGlow.style.opacity = 0;
+                warmerText.style.opacity = 0;
+                if (sparkleInterval) { clearInterval(sparkleInterval); sparkleInterval = null; }
             }
-        } else {
-            warmerText.style.opacity = 0;
-            if (sparkleInterval) {
-                clearInterval(sparkleInterval);
-                sparkleInterval = null;
+
+            if (secretZone) {
+                victoryBtn.style.opacity = '1';
+                victoryBtn.style.pointerEvents = 'auto';
+                victoryBtn.style.transform = 'scale(1)';
+                victoryBtn.classList.add('glow');
+                if (!sparkleInterval) {
+                    sparkleInterval = setInterval(() => createSparkle(x, y), 50);
+                }
+            } else {
+                victoryBtn.style.opacity = '0';
+                victoryBtn.style.pointerEvents = 'none';
+                victoryBtn.style.transform = 'scale(0.5)';
+                victoryBtn.classList.remove('glow');
             }
-        }
-    } else {
-        proximityGlow.style.opacity = 0;
-        warmerText.style.opacity = 0;
-        if (sparkleInterval) {
-            clearInterval(sparkleInterval);
-            sparkleInterval = null;
-        }
-    }
+        });
 
-    // VICTORY ZONE
-    if (secretZone) {
-        victoryBtn.style.opacity = '1';
-        victoryBtn.style.pointerEvents = 'auto';
-        victoryBtn.style.transform = 'scale(1)';
-        victoryBtn.classList.add('glow');
-        
-        // MAXIMUM SPARKLES!
-        if (!sparkleInterval) {
-            sparkleInterval = setInterval(() => {
-                createSparkle(x, y);
-            }, 50);
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            const offsetX = (Math.random() - 0.5) * 100;
+            const offsetY = (Math.random() - 0.5) * 100;
+            sparkle.style.left = x + offsetX + 'px';
+            sparkle.style.top = y + offsetY + 'px';
+            sparkle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+            sparkle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
         }
-    } else {
-        victoryBtn.style.opacity = '0';
-        victoryBtn.style.pointerEvents = 'none';
-        victoryBtn.style.transform = 'scale(0.5)';
-        victoryBtn.classList.remove('glow');
-    }
-});
 
-// SPARKLE CREATION FUNCTION
-function createSparkle(x, y) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    
-    // Random offset from cursor
-    const offsetX = (Math.random() - 0.5) * 100;
-    const offsetY = (Math.random() - 0.5) * 100;
-    
-    sparkle.style.left = x + offsetX + 'px';
-    sparkle.style.top = y + offsetY + 'px';
-    
-    // Random direction for floating
-    const tx = (Math.random() - 0.5) * 200;
-    const ty = (Math.random() - 0.5) * 200;
-    sparkle.style.setProperty('--tx', tx + 'px');
-    sparkle.style.setProperty('--ty', ty + 'px');
-    
-    document.body.appendChild(sparkle);
-    
-    // Remove after animation
-    setTimeout(() => {
-        sparkle.remove();
-    }, 1000);
-}
-//shake screen, ik this function sucks but anyways
-    function shakeScreen() {
-        document.body.classList.add('shake');
-    
-     // Remove the class after animation completes
-        setTimeout(() => {
-        document.body.classList.remove('shake');
-    }   , 500);
-}
-
+        function shakeScreen() {
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 500);
+        }
     </script>
 </body>
 </html>
-
-
